@@ -69,7 +69,14 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="Configuration\ConfigurationTests.cs" />
+    <Compile Include="Configuration\Class1.cs" />
+    <Compile Include="Configuration\TestClass1.cs" />
+    <Compile Include="Configuration\TestClass2.cs" />
+    <Compile Include="Configuration\TestClass3.cs" />
+    <Compile Include="Configuration\TestClass4.cs" />
+    <Compile Include="Configuration\TestClass5.cs" />
+    <Compile Include="Configuration\TestClass6.cs" />
+    <Compile Include="Configuration\TestClass7.cs" />
     <Compile Include="Filling\CollectionsFillingTests.cs" />
     <Compile Include="Data\CyclicHolder.cs" />
     <Compile Include="Data\IntHolder.cs" />

@@ -69,16 +69,15 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="Configuration\ConfigurationTests.cs" />
-    <Compile Include="Filling\CollectionsFillingTests.cs" />
+    <Compile Include="CollectionsFillingTests.cs" />
     <Compile Include="Data\CyclicHolder.cs" />
     <Compile Include="Data\IntHolder.cs" />
     <Compile Include="Data\MetaIntHolder.cs" />
-    <Compile Include="Filling\CollectionElementsFillingTests.cs" />
+    <Compile Include="CollectionElementsFillingTests.cs" />
     <Compile Include="ExtensionsTests\ExpressionExtensionsTests.cs" />
     <Compile Include="InfrastructureTests.cs" />
-    <Compile Include="Filling\MemberFillingTests.cs" />
-    <Compile Include="Filling\TypeFillingTests.cs" />
+    <Compile Include="MemberFillingTests.cs" />
+    <Compile Include="TypeFillingTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Data\ValuesHolder.cs" />
   </ItemGroup>

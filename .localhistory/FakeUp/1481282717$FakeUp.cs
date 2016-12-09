@@ -7,11 +7,10 @@ namespace FakeUp
     {
         public const int DefaultCollectionElementCount = 1;
 
-
         public static T NewObject<T>()
         {
             var config = new FakeUpConfig<T>();
-            var instance = (T)NewObject(typeof(T), new ObjectCreationContext<T>(config));
+            var instance = (T) NewObject(typeof(T), new ObjectCreationContext<T>(config));
             return instance;
         }
 
@@ -25,13 +24,8 @@ namespace FakeUp
         public static T NewObject<T>(Action<IFakeUpConfig<T>> conf)
         {
             var config = GetConfig(conf);
-            var instance = (T)NewObject(typeof(T), new ObjectCreationContext<T>(config));
+            var instance = (T) NewObject(typeof(T), new ObjectCreationContext<T>(config));
             return instance;
-        }
-
-        public static IConfigProvider Config
-        {
-            get { return new ConfigProvider(); }
         }
 
         private static FakeUpConfig<T> GetConfig<T>(Action<IFakeUpConfig<T>> action)

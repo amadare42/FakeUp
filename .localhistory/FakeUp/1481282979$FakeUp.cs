@@ -31,7 +31,7 @@ namespace FakeUp
 
         public static IConfigProvider Config
         {
-            get { return new ConfigProvider(); }
+            get { throw new NotImplementedException(); }
         }
 
         private static FakeUpConfig<T> GetConfig<T>(Action<IFakeUpConfig<T>> action)
