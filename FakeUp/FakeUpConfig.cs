@@ -15,8 +15,8 @@ namespace FakeUp
         {
             this.AbsoluteElementsFillers = new Dictionary<string, Func<int, object>>();
             this.RelativeElementsFillers = new List<RelativeMemberInfo>();
-            this.ElementsTypeFillers = new Dictionary<Type, Func<int, object>>();
-            this.RootMemberFillers = new Dictionary<string, Func<object>>();
+            this.TypeElementsFillers = new Dictionary<Type, Func<int, object>>();
+            this.AbsolutePathFillers = new Dictionary<string, Func<object>>();
             this.RelativeTypeFillers = new List<RelativeMemberInfo>();
             this.TypeFillers = new Dictionary<Type, Func<object>>();
             this.ElementsInCollectionsSourceFunc = () => FakeUp.DefaultCollectionElementCount;
@@ -28,10 +28,9 @@ namespace FakeUp
 
         public List<RelativeMemberInfo> RelativeTypeFillers { get; set; }
 
-        // TODO: change to RelativeMemberInfo mechanism
-        public Dictionary<string, Func<object>> RootMemberFillers { get; set; }
+        public Dictionary<string, Func<object>> AbsolutePathFillers { get; set; }
 
-        public Dictionary<Type, Func<int, object>> ElementsTypeFillers { get; set; }
+        public Dictionary<Type, Func<int, object>> TypeElementsFillers { get; set; }
 
         public List<RelativeMemberInfo> RelativeElementsFillers { get; set; }
 
@@ -66,15 +65,10 @@ namespace FakeUp
             return new WithRelativePath<TFakeObject, TMember, TMetaMember>(this, memberPath);
         }
 
-        public ICollectionWith<TFakeObject> FillElementsOf<TCollection>() where TCollection : IEnumerable
+        public ICollectionWith<TFakeObject> FillElementsOf<TCollection>()
+            where TCollection : IEnumerable
         {
             return new WithCollectionType<TFakeObject, TCollection>(this);
-        }
-
-        public FakeUpConfig<TFakeObject> RandomCollectionElementsCount(int min = 1, int max = 15)
-        {
-            this.ElementsInCollectionsSourceFunc = () => new Random().Next(min, max);
-            return this;
         }
     }
 }

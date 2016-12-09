@@ -2,12 +2,13 @@ using System;
 using System.Collections;
 using System.Linq;
 
-namespace FakeUp
+namespace FakeUp.ValueEvaluation
 {
-    class ArrayEvaluator : IValueEvaluator
+    internal class ArrayEvaluator : IValueEvaluator
     {
         public bool TryEvaluate(Type type, IObjectCreationContext context, out object result)
         {
+            // TODO: split array evaluation to smaller inner methods
             if (!typeof(IEnumerable).IsAssignableFrom(type))
             {
                 result = null;
@@ -31,7 +32,7 @@ namespace FakeUp
             {
                 Func<int, object> filler;
                 object value;
-                if (context.Config.ElementsTypeFillers.TryGetValue(type, out filler))
+                if (context.Config.TypeElementsFillers.TryGetValue(type, out filler))
                 {
                     value = filler(i);
                 }

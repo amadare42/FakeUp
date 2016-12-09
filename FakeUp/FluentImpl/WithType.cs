@@ -14,6 +14,7 @@ namespace FakeUp.FluentImpl
 
         public IFakeUpConfig<TFakeObject> With(TMember constant)
         {
+            // TODO: override type filler if it already exists
             this.config.TypeFillers.Add(typeof(TMember), () => constant);
             return this.config;
         }

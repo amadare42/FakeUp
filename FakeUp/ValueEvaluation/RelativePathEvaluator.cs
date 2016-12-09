@@ -1,7 +1,7 @@
 using System;
 using System.Linq;
 
-namespace FakeUp
+namespace FakeUp.ValueEvaluation
 {
     internal class RelativePathEvaluator : IValueEvaluator
     {

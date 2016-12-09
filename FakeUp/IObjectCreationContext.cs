@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Reflection;
+using FakeUp.ValueEvaluation;
 
 namespace FakeUp
 {
@@ -8,6 +9,7 @@ namespace FakeUp
     {
         IInternalFakeUpConfig Config { get; }
 
+        // TODO: remove
         object RootObject { get; set; }
 
         string InvocationPath { get; }

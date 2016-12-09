@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using FakeUp.ValueEvaluation;
 
 namespace FakeUp
 {
@@ -44,7 +45,7 @@ namespace FakeUp
         object IObjectCreationContext.RootObject
         {
             get { return this.RootObject; }
-            set { this.RootObject = (T) value; }
+            set { this.RootObject = (T)value; }
         }
 
         IInternalFakeUpConfig IObjectCreationContext.Config => this.Config;

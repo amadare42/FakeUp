@@ -11,9 +11,9 @@ namespace FakeUp
 
         List<RelativeMemberInfo> RelativeTypeFillers { get; }
 
-        Dictionary<string, Func<object>> RootMemberFillers { get; }
+        Dictionary<string, Func<object>> AbsolutePathFillers { get; }
 
-        Dictionary<Type, Func<int, object>> ElementsTypeFillers { get; }
+        Dictionary<Type, Func<int, object>> TypeElementsFillers { get; }
 
         List<RelativeMemberInfo> RelativeElementsFillers { get; }
 

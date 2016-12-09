@@ -10,7 +10,7 @@ namespace FakeUp
         public static T NewObject<T>()
         {
             var config = new FakeUpConfig<T>();
-            var instance = (T)NewObject(typeof(T), new ObjectCreationContext<T>(config));
+            var instance = (T) NewObject(typeof(T), new ObjectCreationContext<T>(config));
             return instance;
         }
 
@@ -24,7 +24,7 @@ namespace FakeUp
         public static T NewObject<T>(Action<IFakeUpConfig<T>> conf)
         {
             var config = GetConfig(conf);
-            var instance = (T)NewObject(typeof(T), new ObjectCreationContext<T>(config));
+            var instance = (T) NewObject(typeof(T), new ObjectCreationContext<T>(config));
             return instance;
         }
 
@@ -46,6 +46,7 @@ namespace FakeUp
                 }
             }
 
+            // TODO: move to activator evaluator
             instance = CreateByActivator(type);
 
             if (context.RootObject == null)
@@ -58,6 +59,7 @@ namespace FakeUp
             {
                 if (propertyInfo.CanWrite)
                 {
+                    // TODO: handle cyclic references
                     context.InvocationStack.Push(propertyInfo);
 
                     var value = NewObject(propertyInfo.PropertyType, context);
