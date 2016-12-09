@@ -21,7 +21,7 @@ namespace FakeUp
                     new EmptyStringEvaluator(),
                     new ListEvaluator(),
                     new ArrayEvaluator(),
-                    new ActivatorEvaluator(),
+                    new ActivatorEvaluator()
                 };
             }
         }
@@ -42,12 +42,25 @@ namespace FakeUp
             return FakeUp.NewObject(type, this);
         }
 
-        public T RootObject { get; set; }
-
-        object IObjectCreationContext.RootObject
+        public void PushInvocation(PropertyInfo propertyInfo)
         {
-            get { return this.RootObject; }
-            set { this.RootObject = (T)value; }
+            this.InvocationStack.Push(propertyInfo);
+        }
+
+        public PropertyInfo PopInvocation()
+        {
+            return this.InvocationStack.Pop();
+        }
+
+        public int GetMatchScore(CallChain callChain)
+        {
+            return callChain.GetMatchScore(this.InvocationStack);
+        }
+
+        public int GetCyclicReferencesDepth()
+        {
+            var currentType = this.InvocationStack.Peek().PropertyType;
+            return this.InvocationStack.Count(propInfo => propInfo.PropertyType == currentType);
         }
 
         IInternalFakeUpConfig IObjectCreationContext.Config => this.Config;

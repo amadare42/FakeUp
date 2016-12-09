@@ -21,21 +21,21 @@ namespace FakeUp.FluentImpl
         public IFakeUpConfig<TFakeObject> With(Func<int, object> func)
         {
             var callPath = this.memberPath.ToCallPath();
-            this.config.AbsoluteElementsFillers.Add(callPath, func);
+            this.config.AbsoluteElementsFillers[callPath] = func;
             return this.config;
         }
 
         public IFakeUpConfig<TFakeObject> With(object constant)
         {
             var callPath = this.memberPath.ToCallPath();
-            this.config.AbsoluteElementsFillers.Add(callPath, index => constant);
+            this.config.AbsoluteElementsFillers[callPath] = index => constant;
             return this.config;
         }
 
         public IFakeUpConfig<TFakeObject> With(Func<object> func)
         {
             var callPath = this.memberPath.ToCallPath();
-            this.config.AbsoluteElementsFillers.Add(callPath, index => func());
+            this.config.AbsoluteElementsFillers[callPath] = index => func();
             return this.config;
         }
     }

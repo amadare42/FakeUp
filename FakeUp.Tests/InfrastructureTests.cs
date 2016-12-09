@@ -1,6 +1,4 @@
-﻿using System;
-using FakeUp.Tests.Data;
-using FluentAssertions;
+﻿using FakeUp.Tests.Data;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace FakeUp.Tests
@@ -9,14 +7,11 @@ namespace FakeUp.Tests
     public class InfrastructureTests
     {
         [TestMethod]
-        public void ShouldThrowWhenObjectHaveCyclicReferences()
+        public void ShouldFillObjectsWithCyclicReferences()
         {
-            // act
-            Action act = () => FakeUp.NewObject<CyclicHolder<int>>();
-
-            // assert
-            act.ShouldThrow<ArgumentException>()
-                .And.Message.Should().Contain("cyclic reference");
+            var instance = FakeUp.NewObject<CyclicHolder<int>>(o => o
+                    .FillAll<int>().With(5)
+            );
         }
     }
 }

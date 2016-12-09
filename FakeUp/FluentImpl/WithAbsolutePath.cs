@@ -20,14 +20,14 @@ namespace FakeUp.FluentImpl
         public IFakeUpConfig<TFakeObject> With(TMember constant)
         {
             var callPath = this.memberPath.ToCallPath();
-            this.config.AbsolutePathFillers.Add(callPath, () => constant);
+            this.config.AbsolutePathFillers[callPath] = () => constant;
             return this.config;
         }
 
         public IFakeUpConfig<TFakeObject> With(Func<TMember> func)
         {
             var callPath = this.memberPath.ToCallPath();
-            this.config.AbsolutePathFillers.Add(callPath, () => func());
+            this.config.AbsolutePathFillers[callPath] = () => func();
             return this.config;
         }
     }

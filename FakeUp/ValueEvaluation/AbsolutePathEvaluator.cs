@@ -4,17 +4,16 @@ namespace FakeUp.ValueEvaluation
 {
     internal class AbsolutePathEvaluator : IValueEvaluator
     {
-        public bool TryEvaluate(Type type, IObjectCreationContext context, out object result)
+        public EvaluationResult Evaluate(Type type, IObjectCreationContext context)
         {
             Func<object> fillEvaluator;
             if (context.Config.AbsolutePathFillers.TryGetValue(context.InvocationPath, out fillEvaluator))
             {
-                result = fillEvaluator();
-                return true;
+                var result = fillEvaluator();
+                return new EvaluationResult(result);
             }
 
-            result = null;
-            return false;
+            return EvaluationResult.Empty;
         }
     }
 }

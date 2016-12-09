@@ -4,15 +4,13 @@ namespace FakeUp.ValueEvaluation
 {
     internal class EmptyStringEvaluator : IValueEvaluator
     {
-        public bool TryEvaluate(Type type, IObjectCreationContext context, out object result)
+        public EvaluationResult Evaluate(Type type, IObjectCreationContext context)
         {
             if (type == typeof(string))
             {
-                result = string.Empty;
-                return true;
+                return new EvaluationResult(string.Empty);
             }
-            result = null;
-            return false;
+            return EvaluationResult.Empty;
         }
     }
 }

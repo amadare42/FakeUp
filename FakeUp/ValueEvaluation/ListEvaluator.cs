@@ -7,12 +7,11 @@ namespace FakeUp.ValueEvaluation
 {
     internal class ListEvaluator : IValueEvaluator
     {
-        public bool TryEvaluate(Type type, IObjectCreationContext context, out object result)
+        public EvaluationResult Evaluate(Type type, IObjectCreationContext context)
         {
             if (!IsGenericList(type))
             {
-                result = null;
-                return false;
+                return EvaluationResult.Empty;
             }
 
             var elementType = type.HasElementType
@@ -27,8 +26,7 @@ namespace FakeUp.ValueEvaluation
                 list.Add(value);
             }
 
-            result = list;
-            return true;
+            return new EvaluationResult(list);
         }
 
         public static bool IsGenericList(Type type)

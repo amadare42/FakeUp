@@ -71,6 +71,7 @@
     <Compile Include="ValueEvaluation\ActivatorEvaluator.cs" />
     <Compile Include="ValueEvaluation\ArrayEvaluator.cs" />
     <Compile Include="ValueEvaluation\EmptyStringEvaluator.cs" />
+    <Compile Include="ValueEvaluation\EvaluationResult.cs" />
     <Compile Include="ValueEvaluation\IValueEvaluator.cs" />
     <Compile Include="ValueEvaluation\ListEvaluator.cs" />
     <Compile Include="ValueEvaluation\RelativePathEvaluator.cs" />

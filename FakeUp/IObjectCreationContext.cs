@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.Reflection;
 using FakeUp.Config;
 using FakeUp.ValueEvaluation;
@@ -10,15 +9,18 @@ namespace FakeUp
     {
         IInternalFakeUpConfig Config { get; }
 
-        // TODO: remove
-        object RootObject { get; set; }
-
         string InvocationPath { get; }
-
-        Stack<PropertyInfo> InvocationStack { get; }
 
         IValueEvaluator[] Evaluators { get; }
 
         object NewObject(Type type);
+
+        void PushInvocation(PropertyInfo propertyInfo);
+
+        PropertyInfo PopInvocation();
+
+        int GetMatchScore(CallChain callChain);
+
+        int GetCyclicReferencesDepth();
     }
 }

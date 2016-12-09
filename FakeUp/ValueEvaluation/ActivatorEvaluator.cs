@@ -1,34 +1,32 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 
 namespace FakeUp.ValueEvaluation
 {
     internal class ActivatorEvaluator : IValueEvaluator
     {
-        public bool TryEvaluate(Type type, IObjectCreationContext context, out object result)
-        {
-            result = CreateByActivator(type);
+        public const int MaxCyclicDepth = 3;
 
-            if (context.RootObject == null)
-            {
-                context.RootObject = result;
-            }
+        public EvaluationResult Evaluate(Type type, IObjectCreationContext context)
+        {
+            var result = CreateByActivator(type);
 
             var propertyInfos = GetProperties(type);
             foreach (var propertyInfo in propertyInfos)
             {
-                if (propertyInfo.CanWrite)
-                {
-                    // TODO: handle cyclic references
-                    context.InvocationStack.Push(propertyInfo);
+                context.PushInvocation(propertyInfo);
 
+                if (context.GetCyclicReferencesDepth() <= MaxCyclicDepth)
+                {
                     var value = context.NewObject(propertyInfo.PropertyType);
                     propertyInfo.SetValue(result, value);
-
-                    context.InvocationStack.Pop();
                 }
+
+                context.PopInvocation();
             }
-            return true;
+            return new EvaluationResult(result);
         }
 
         private static object CreateByActivator(Type type)
@@ -45,11 +43,12 @@ namespace FakeUp.ValueEvaluation
             return instance;
         }
 
-        private static PropertyInfo[] GetProperties(Type type)
+        private static IEnumerable<PropertyInfo> GetProperties(Type type)
         {
             // TODO: add ability to set non-public properties
-            // TODO: add ability to set fields
-            return type.GetProperties(BindingFlags.Instance | BindingFlags.Public | BindingFlags.SetProperty);
+            // TODO: add ability to set fields [mind props with backing field]
+            return type.GetProperties(BindingFlags.Instance | BindingFlags.Public | BindingFlags.SetProperty)
+                .Where(prop => prop.CanWrite);
         }
     }
 }

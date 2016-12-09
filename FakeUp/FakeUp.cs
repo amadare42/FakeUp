@@ -11,7 +11,7 @@ namespace FakeUp
         public static T NewObject<T>()
         {
             var config = new FakeUpConfig<T>();
-            var instance = (T) NewObject(typeof(T), new ObjectCreationContext<T>(config));
+            var instance = (T)NewObject(typeof(T), new ObjectCreationContext<T>(config));
             return instance;
         }
 
@@ -25,7 +25,7 @@ namespace FakeUp
         public static T NewObject<T>(Action<IFakeUpConfig<T>> conf)
         {
             var config = GetConfig(conf);
-            var instance = (T) NewObject(typeof(T), new ObjectCreationContext<T>(config));
+            var instance = (T)NewObject(typeof(T), new ObjectCreationContext<T>(config));
             return instance;
         }
 
@@ -45,10 +45,10 @@ namespace FakeUp
         {
             foreach (var evaluator in context.Evaluators)
             {
-                object instance;
-                if (evaluator.TryEvaluate(type, context, out instance))
+                var result = evaluator.Evaluate(type, context);
+                if (result.IsSuccessful)
                 {
-                    return instance;
+                    return result.Value;
                 }
             }
 

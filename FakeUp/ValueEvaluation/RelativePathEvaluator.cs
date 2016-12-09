@@ -5,10 +5,10 @@ namespace FakeUp.ValueEvaluation
 {
     internal class RelativePathEvaluator : IValueEvaluator
     {
-        public bool TryEvaluate(Type type, IObjectCreationContext context, out object result)
+        public EvaluationResult Evaluate(Type type, IObjectCreationContext context)
         {
             var bestMemberInfo = context.Config.RelativeTypeFillers
-                .ToLookup(info => info.CallChain.GetMatchScore(context.InvocationStack))
+                .ToLookup(info => context.GetMatchScore(info.CallChain))
                 .Where(pair => pair.Key > 0)
                 .OrderByDescending(pair => pair.Key)
                 .Select(pair => pair.First())
@@ -16,11 +16,10 @@ namespace FakeUp.ValueEvaluation
 
             if (bestMemberInfo != null)
             {
-                result = bestMemberInfo.Evaluate();
-                return true;
+                var result = bestMemberInfo.Evaluate();
+                return new EvaluationResult(result);
             }
-            result = null;
-            return false;
+            return EvaluationResult.Empty;
         }
     }
 }

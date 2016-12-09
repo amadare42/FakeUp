@@ -6,13 +6,11 @@ namespace FakeUp.ValueEvaluation
 {
     internal class ArrayEvaluator : IValueEvaluator
     {
-        public bool TryEvaluate(Type type, IObjectCreationContext context, out object result)
+        public EvaluationResult Evaluate(Type type, IObjectCreationContext context)
         {
-            // TODO: split array evaluation to smaller inner methods
-            if (!typeof(IEnumerable).IsAssignableFrom(type))
+            if (!CanBeArray(type))
             {
-                result = null;
-                return false;
+                return EvaluationResult.Empty;
             }
 
             var elementsInCollections = context.Config.ElementsInCollections;
@@ -24,7 +22,7 @@ namespace FakeUp.ValueEvaluation
             }
             else
             {
-                array = (Array)Activator.CreateInstance(type, elementsInCollections);
+                array = (Array) Activator.CreateInstance(type, elementsInCollections);
                 elementType = type.GetElementType();
             }
 
@@ -49,8 +47,12 @@ namespace FakeUp.ValueEvaluation
                 }
                 array.SetValue(value, i);
             }
-            result = array;
-            return true;
+            return new EvaluationResult(array);
+        }
+
+        private static bool CanBeArray(Type type)
+        {
+            return typeof(IEnumerable).IsAssignableFrom(type);
         }
     }
 }

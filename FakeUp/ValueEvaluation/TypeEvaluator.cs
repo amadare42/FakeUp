@@ -4,16 +4,15 @@ namespace FakeUp.ValueEvaluation
 {
     internal class TypeEvaluator : IValueEvaluator
     {
-        public bool TryEvaluate(Type type, IObjectCreationContext context, out object result)
+        public EvaluationResult Evaluate(Type type, IObjectCreationContext context)
         {
             Func<object> filler;
             if (context.Config.TypeFillers.TryGetValue(type, out filler))
             {
-                result = filler();
-                return true;
+                var result = filler();
+                return new EvaluationResult(result);
             }
-            result = null;
-            return false;
+            return EvaluationResult.Empty;
         }
     }
 }
