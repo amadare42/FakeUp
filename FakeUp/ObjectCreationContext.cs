@@ -20,7 +20,8 @@ namespace FakeUp
                     new TypeEvaluator(),
                     new EmptyStringEvaluator(),
                     new ListEvaluator(),
-                    new ArrayEvaluator()
+                    new ArrayEvaluator(),
+                    new ActivatorEvaluator(),
                 };
             }
         }

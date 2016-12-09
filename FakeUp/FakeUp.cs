@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Reflection;
 using FakeUp.Config;
 
 namespace FakeUp
@@ -12,7 +11,7 @@ namespace FakeUp
         public static T NewObject<T>()
         {
             var config = new FakeUpConfig<T>();
-            var instance = (T)NewObject(typeof(T), new ObjectCreationContext<T>(config));
+            var instance = (T) NewObject(typeof(T), new ObjectCreationContext<T>(config));
             return instance;
         }
 
@@ -26,7 +25,7 @@ namespace FakeUp
         public static T NewObject<T>(Action<IFakeUpConfig<T>> conf)
         {
             var config = GetConfig(conf);
-            var instance = (T)NewObject(typeof(T), new ObjectCreationContext<T>(config));
+            var instance = (T) NewObject(typeof(T), new ObjectCreationContext<T>(config));
             return instance;
         }
 
@@ -44,59 +43,16 @@ namespace FakeUp
 
         internal static object NewObject(Type type, IObjectCreationContext context)
         {
-            object instance;
             foreach (var evaluator in context.Evaluators)
             {
+                object instance;
                 if (evaluator.TryEvaluate(type, context, out instance))
                 {
                     return instance;
                 }
             }
 
-            // TODO: move to activator evaluator
-            instance = CreateByActivator(type);
-
-            if (context.RootObject == null)
-            {
-                context.RootObject = instance;
-            }
-
-            var propertyInfos = GetProperties(type);
-            foreach (var propertyInfo in propertyInfos)
-            {
-                if (propertyInfo.CanWrite)
-                {
-                    // TODO: handle cyclic references
-                    context.InvocationStack.Push(propertyInfo);
-
-                    var value = NewObject(propertyInfo.PropertyType, context);
-                    propertyInfo.SetValue(instance, value);
-
-                    context.InvocationStack.Pop();
-                }
-            }
-            return instance;
-        }
-
-        private static object CreateByActivator(Type type)
-        {
-            object instance;
-            try
-            {
-                instance = Activator.CreateInstance(type);
-            }
-            catch (MissingMethodException) //no parameterless c-tor
-            {
-                instance = null;
-            }
-            return instance;
-        }
-
-        private static PropertyInfo[] GetProperties(Type type)
-        {
-            // TODO: add ability to set non-public properties
-            // TODO: add ability to set fields
-            return type.GetProperties(BindingFlags.Instance | BindingFlags.Public | BindingFlags.SetProperty);
+            throw new FillingException($"Cannot fill member '{context.InvocationPath}' of type '{type.FullName}'.");
         }
     }
 }

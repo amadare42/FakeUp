@@ -4,7 +4,7 @@ using FakeUp.Tests.Data;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace FakeUp.Tests
+namespace FakeUp.Tests.Filling
 {
     [TestClass]
     public class CollectionElementsFillingTests
