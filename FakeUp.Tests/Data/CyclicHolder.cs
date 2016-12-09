@@ -1,4 +1,4 @@
-namespace Playground.ObjectFaker.Tests
+namespace FakeUp.Tests.Data
 {
     public class CyclicHolder<T>
     {

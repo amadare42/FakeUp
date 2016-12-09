@@ -1,21 +1,22 @@
 using System;
 
-namespace Playground.ObjectFaker
+namespace FakeUp
 {
     internal class RelativeMemberInfo
     {
         private readonly Func<object> factoryFunc;
-        public Type RootType { get; set; }
-        public Type TargetType { get; set; }
-        public CallChain CallChain { get; set; }
 
         public RelativeMemberInfo(Func<object> factoryFunc, CallChain chain, Type rootType, Type targetType)
         {
-            CallChain = chain;
-            RootType = rootType;
-            TargetType = targetType;
+            this.CallChain = chain;
+            this.RootType = rootType;
+            this.TargetType = targetType;
             this.factoryFunc = factoryFunc;
         }
+
+        public Type RootType { get; set; }
+        public Type TargetType { get; set; }
+        public CallChain CallChain { get; set; }
 
         public object Evaluate()
         {

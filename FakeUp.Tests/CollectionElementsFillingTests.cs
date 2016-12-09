@@ -1,10 +1,10 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
+using FakeUp.Tests.Data;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Playground.ObjectFaker.Tests
+namespace FakeUp.Tests
 {
     [TestClass]
     public class CollectionElementsFillingTests
@@ -14,7 +14,7 @@ namespace Playground.ObjectFaker.Tests
         {
             // act
             var instance = FakeUp.NewObject<ValuesHolder<int[], List<int>>>(options =>
-                options.FillElementsOf<int[]>().With(42)
+                        options.FillElementsOf<int[]>().With(42)
             );
 
             // assert
@@ -26,8 +26,8 @@ namespace Playground.ObjectFaker.Tests
         {
             // act
             var instance = FakeUp.NewObject<ValuesHolder<int[], List<int>>>(options => options
-                .FillAll<int>().With(1)
-                .FillElementsOf<int[]>().With(2)
+                    .FillAll<int>().With(1)
+                    .FillElementsOf<int[]>().With(2)
             );
 
             // assert
@@ -39,12 +39,12 @@ namespace Playground.ObjectFaker.Tests
         public void ShouldFillElementsWithValuesFromIndexFuncByType()
         {
             // arrange
-            int collectionsSize = 10;
+            var collectionsSize = 10;
 
             // act
             var instance = FakeUp.NewObject<ValuesHolder<int[], List<int>>>(options => options
-                .WithCollectionsSize(collectionsSize)
-                .FillElementsOf<int[]>().With(index => index + 100)
+                    .WithCollectionsSize(collectionsSize)
+                    .FillElementsOf<int[]>().With(index => index + 100)
             );
 
             // assert
@@ -60,7 +60,7 @@ namespace Playground.ObjectFaker.Tests
 
             // act
             var instance = FakeUp.NewObject<ValuesHolder<int[]>>(options =>
-                options.FillElementsOf<int[]>().With(() => i++)
+                        options.FillElementsOf<int[]>().With(() => i++)
             );
 
             // assert
@@ -109,8 +109,8 @@ namespace Playground.ObjectFaker.Tests
 
             // act
             var instance = FakeUp.NewObject<ValuesHolder<int[]>>(options => options
-                .WithCollectionsSize(collectionSize)
-                .FillElementsOf(holder => holder.Value1).With((index) => index * 2)
+                    .WithCollectionsSize(collectionSize)
+                    .FillElementsOf(holder => holder.Value1).With(index => index * 2)
             );
 
             // assert

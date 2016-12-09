@@ -1,12 +1,10 @@
 using System;
 
-namespace Playground.ObjectFaker
+namespace FakeUp
 {
     internal class AbsoluteMemberInfo
     {
         private readonly Func<object> factoryFunc;
-        public Type RootType { get; set; }
-        public string AbsolutePath { get; set; }
 
         public AbsoluteMemberInfo(Func<object> factoryFunc, string absolutePath, Type rootType)
         {
@@ -14,6 +12,9 @@ namespace Playground.ObjectFaker
             this.RootType = rootType;
             this.factoryFunc = factoryFunc;
         }
+
+        public Type RootType { get; set; }
+        public string AbsolutePath { get; set; }
 
         public object Evaluate()
         {

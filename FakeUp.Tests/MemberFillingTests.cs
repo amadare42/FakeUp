@@ -1,7 +1,8 @@
+using FakeUp.Tests.Data;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Playground.ObjectFaker.Tests
+namespace FakeUp.Tests
 {
     [TestClass]
     public class MemberFillingTests
@@ -11,7 +12,7 @@ namespace Playground.ObjectFaker.Tests
         {
             // act
             var instance = FakeUp.NewObject<ValuesHolder<int>>(opt =>
-                opt.Fill(holder => holder.Value1).With(42)
+                        opt.Fill(holder => holder.Value1).With(42)
             );
 
             // assert
@@ -22,12 +23,12 @@ namespace Playground.ObjectFaker.Tests
         public void ShouldFillMemberWithFuncByExpressionPath()
         {
             // arrange
-            int i = 0;
+            var i = 0;
 
             // act
             var instance = FakeUp.NewObject<ValuesHolder<int>>(opt =>
-                opt.Fill(holder => holder.Value1).With(() => i++)
-                   .Fill(holder => holder.Value2).With(() => i++)
+                    opt.Fill(holder => holder.Value1).With(() => i++)
+                        .Fill(holder => holder.Value2).With(() => i++)
             );
 
             // assert
@@ -40,8 +41,8 @@ namespace Playground.ObjectFaker.Tests
         {
             // act
             var instance = FakeUp.NewObject<ValuesHolder<string>>(opt =>
-                opt.FillAll<string>().With("FillAll")
-                   .Fill(holder => holder.Value2).With("Fill")
+                    opt.FillAll<string>().With("FillAll")
+                        .Fill(holder => holder.Value2).With("Fill")
             );
 
             // assert
@@ -54,8 +55,8 @@ namespace Playground.ObjectFaker.Tests
         {
             // act
             var instance = FakeUp.NewObject<ValuesHolder<MetaIntHolder>>(opt =>
-                opt.Fill((MetaIntHolder metaIntHolder) => metaIntHolder.Holder.IntValue1)
-                   .With(42)
+                    opt.Fill((MetaIntHolder metaIntHolder) => metaIntHolder.Holder.IntValue1)
+                        .With(42)
             );
 
             // assert
@@ -70,9 +71,9 @@ namespace Playground.ObjectFaker.Tests
             var instance = FakeUp.NewObject<ValuesHolder<MetaIntHolder>>(opt =>
             {
                 opt.Fill((MetaIntHolder metaIntHolder) => metaIntHolder.Holder.IntValue1)
-                   .With(1);
+                    .With(1);
                 opt.Fill((IntHolder intHolder) => intHolder.IntValue2)
-                   .With(2);
+                    .With(2);
             });
 
             // assert
@@ -84,10 +85,10 @@ namespace Playground.ObjectFaker.Tests
         public void ShouldFillMemberWithFuncUsingRelativePath()
         {
             // act
-            int i = 0;
+            var i = 0;
             var instance = FakeUp.NewObject<MetaIntHolder>(opt => opt
-                .Fill((IntHolder holder) => holder.IntValue1).With(() => i++)
-                .Fill((IntHolder holder) => holder.IntValue2).With(() => i++)
+                    .Fill((IntHolder holder) => holder.IntValue1).With(() => i++)
+                    .Fill((IntHolder holder) => holder.IntValue2).With(() => i++)
             );
 
             // assert

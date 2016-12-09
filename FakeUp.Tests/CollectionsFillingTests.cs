@@ -1,11 +1,10 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
+using FakeUp.Tests.Data;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Moq;
 
-namespace Playground.ObjectFaker.Tests
+namespace FakeUp.Tests
 {
     [TestClass]
     public class CollectionsFillingTests
@@ -25,8 +24,8 @@ namespace Playground.ObjectFaker.Tests
         {
             // act
             var holder = FakeUp.NewObject<ValuesHolder<int[]>>(opt =>
-                opt.FillAll<int>().With(42)
-                );
+                        opt.FillAll<int>().With(42)
+            );
 
             // assert
             holder.Value1[0].Should().Be(42);
@@ -47,8 +46,8 @@ namespace Playground.ObjectFaker.Tests
         {
             // act
             var holder = FakeUp.NewObject<ValuesHolder<List<int>>>(opt =>
-                opt.FillAll<int>().With(42)
-                );
+                        opt.FillAll<int>().With(42)
+            );
 
             // assert
             holder.Value1[0].Should().Be(42);
@@ -59,8 +58,8 @@ namespace Playground.ObjectFaker.Tests
         {
             // act
             var holder = FakeUp.NewObject<ValuesHolder<IEnumerable<int>>>(opt =>
-                opt.FillAll<int>().With(42)
-                );
+                        opt.FillAll<int>().With(42)
+            );
 
             // assert
             holder.Value1.GetType().IsArray.Should().BeTrue();

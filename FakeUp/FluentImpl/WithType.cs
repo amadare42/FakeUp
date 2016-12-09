@@ -1,26 +1,27 @@
 ﻿using System;
+using FakeUp.Fluent;
 
-namespace Playground.ObjectFaker
+namespace FakeUp.FluentImpl
 {
     internal class WithType<TFakeObject, TMember> : IWith<TFakeObject, TMember>
     {
-        private readonly FakeUpOptions<TFakeObject> options;
+        private readonly FakeUpConfig<TFakeObject> config;
 
-        public WithType(FakeUpOptions<TFakeObject> options)
+        public WithType(FakeUpConfig<TFakeObject> config)
         {
-            this.options = options;
+            this.config = config;
         }
 
-        public IFakeUpOptions<TFakeObject> With(TMember constant)
+        public IFakeUpConfig<TFakeObject> With(TMember constant)
         {
-            this.options.TypeFillers.Add(typeof(TMember), () => constant);
-            return this.options;
+            this.config.TypeFillers.Add(typeof(TMember), () => constant);
+            return this.config;
         }
 
-        public IFakeUpOptions<TFakeObject> With(Func<TMember> func)
+        public IFakeUpConfig<TFakeObject> With(Func<TMember> func)
         {
-            this.options.TypeFillers.Add(typeof(TMember), () => func());
-            return this.options;
+            this.config.TypeFillers.Add(typeof(TMember), () => func());
+            return this.config;
         }
     }
 }

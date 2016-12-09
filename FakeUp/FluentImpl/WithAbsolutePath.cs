@@ -1,31 +1,33 @@
 using System;
 using System.Linq.Expressions;
+using FakeUp.Extensions;
+using FakeUp.Fluent;
 
-namespace Playground.ObjectFaker
+namespace FakeUp.FluentImpl
 {
     internal class WithAbsolutePath<TFakeObject, TMember> : IWith<TFakeObject, TMember>
     {
-        private readonly FakeUpOptions<TFakeObject> options;
         private readonly Expression<Func<TFakeObject, TMember>> memberPath;
+        private readonly FakeUpConfig<TFakeObject> config;
 
-        public WithAbsolutePath(FakeUpOptions<TFakeObject> options, Expression<Func<TFakeObject, TMember>> memberPath)
+        public WithAbsolutePath(FakeUpConfig<TFakeObject> config, Expression<Func<TFakeObject, TMember>> memberPath)
         {
-            this.options = options;
+            this.config = config;
             this.memberPath = memberPath;
         }
 
-        public IFakeUpOptions<TFakeObject> With(TMember constant)
+        public IFakeUpConfig<TFakeObject> With(TMember constant)
         {
             var callPath = this.memberPath.ToCallPath();
-            this.options.RootMemberFillers.Add(callPath, () => constant);
-            return this.options;
+            this.config.RootMemberFillers.Add(callPath, () => constant);
+            return this.config;
         }
 
-        public IFakeUpOptions<TFakeObject> With(Func<TMember> func)
+        public IFakeUpConfig<TFakeObject> With(Func<TMember> func)
         {
             var callPath = this.memberPath.ToCallPath();
-            this.options.RootMemberFillers.Add(callPath, () => func());
-            return this.options;
+            this.config.RootMemberFillers.Add(callPath, () => func());
+            return this.config;
         }
     }
 }

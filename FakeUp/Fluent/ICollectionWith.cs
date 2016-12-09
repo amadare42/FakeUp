@@ -1,13 +1,13 @@
 using System;
 
-namespace Playground.ObjectFaker
+namespace FakeUp.Fluent
 {
     public interface ICollectionWith<TFakeObject>
     {
-        IFakeUpOptions<TFakeObject> With(Func<int, object> func);
+        IFakeUpConfig<TFakeObject> With(Func<int, object> func);
 
-        IFakeUpOptions<TFakeObject> With(object constant);
+        IFakeUpConfig<TFakeObject> With(object constant);
 
-        IFakeUpOptions<TFakeObject> With(Func<object> func);
+        IFakeUpConfig<TFakeObject> With(Func<object> func);
     }
 }

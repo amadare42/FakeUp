@@ -1,11 +1,11 @@
 using System;
 
-namespace Playground.ObjectFaker
+namespace FakeUp.Fluent
 {
     public interface IWith<TFakeObject, in TMember>
     {
-        IFakeUpOptions<TFakeObject> With(TMember constant);
+        IFakeUpConfig<TFakeObject> With(TMember constant);
 
-        IFakeUpOptions<TFakeObject> With(Func<TMember> func);
+        IFakeUpConfig<TFakeObject> With(Func<TMember> func);
     }
 }

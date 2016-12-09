@@ -1,32 +1,33 @@
 using System;
+using FakeUp.Fluent;
 
-namespace Playground.ObjectFaker
+namespace FakeUp.FluentImpl
 {
-    class WithCollectionType<TFakeObject, TCollection> : ICollectionWith<TFakeObject>
+    internal class WithCollectionType<TFakeObject, TCollection> : ICollectionWith<TFakeObject>
     {
-        private readonly FakeUpOptions<TFakeObject> options;
+        private readonly FakeUpConfig<TFakeObject> config;
 
-        public WithCollectionType(FakeUpOptions<TFakeObject> options)
+        public WithCollectionType(FakeUpConfig<TFakeObject> config)
         {
-            this.options = options;
+            this.config = config;
         }
 
-        public IFakeUpOptions<TFakeObject> With(Func<int, object> func)
+        public IFakeUpConfig<TFakeObject> With(Func<int, object> func)
         {
-            this.options.ElementsTypeFillers.Add(typeof(TCollection), func);
-            return this.options;
+            this.config.ElementsTypeFillers.Add(typeof(TCollection), func);
+            return this.config;
         }
 
-        public IFakeUpOptions<TFakeObject> With(object constant)
+        public IFakeUpConfig<TFakeObject> With(object constant)
         {
-            this.options.ElementsTypeFillers.Add(typeof(TCollection), (index) => constant);
-            return this.options;
+            this.config.ElementsTypeFillers.Add(typeof(TCollection), index => constant);
+            return this.config;
         }
 
-        public IFakeUpOptions<TFakeObject> With(Func<object> func)
+        public IFakeUpConfig<TFakeObject> With(Func<object> func)
         {
-            this.options.ElementsTypeFillers.Add(typeof(TCollection), (index) => func());
-            return this.options;
+            this.config.ElementsTypeFillers.Add(typeof(TCollection), index => func());
+            return this.config;
         }
     }
 }

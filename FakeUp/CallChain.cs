@@ -2,26 +2,26 @@
 using System.Linq;
 using System.Reflection;
 
-namespace Playground.ObjectFaker
+namespace FakeUp
 {
     public class CallChain
     {
-        public List<CallInfo> Calls { get; }
-
         public CallChain(List<CallInfo> calls)
         {
-            Calls = calls;
+            this.Calls = calls;
         }
+
+        public List<CallInfo> Calls { get; }
 
         public int GetMatchScore(IEnumerable<PropertyInfo> propertyChain)
         {
-            int score = 0;
-            var reverseCalls = Enumerable.Reverse(Calls).ToList();
+            var score = 0;
+            var reverseCalls = Enumerable.Reverse(this.Calls).ToList();
             var otherReverseCalls = propertyChain.ToList();
 
-            for (int i = 0; i < reverseCalls.Count; i++)
+            for (var i = 0; i < reverseCalls.Count; i++)
             {
-                if (otherReverseCalls.Count <= i || !reverseCalls[i].IsSameCall(otherReverseCalls[i]))
+                if ((otherReverseCalls.Count <= i) || !reverseCalls[i].IsSameCall(otherReverseCalls[i]))
                 {
                     return 0;
                 }

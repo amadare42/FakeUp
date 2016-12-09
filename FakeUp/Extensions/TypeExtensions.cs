@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Playground.ObjectFaker
+namespace FakeUp.Extensions
 {
     internal static class TypeExtensions
     {

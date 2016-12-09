@@ -1,8 +1,7 @@
 ﻿using System;
-using System.Collections;
-using System.Linq;
+using System.Reflection;
 
-namespace Playground.ObjectFaker
+namespace FakeUp
 {
     public static class FakeUp
     {
@@ -10,90 +9,51 @@ namespace Playground.ObjectFaker
 
         public static T NewObject<T>()
         {
-            var options = new FakeUpOptions<T>();
-            var instance = (T)NewObject(typeof(T), new ObjectCreationContext<T> { TypedOptions = options });
+            var config = new FakeUpConfig<T>();
+            var instance = (T)NewObject(typeof(T), new ObjectCreationContext<T>(config));
             return instance;
         }
 
-        public static object NewObject(Type type, Action<IFakeUpOptions<object>> opt)
+        public static object NewObject(Type type, Action<IFakeUpConfig<object>> conf)
         {
-            var options = GetOptions(opt);
-            var instance = NewObject(type, new ObjectCreationContext<object> { TypedOptions = options });
+            var config = GetConfig(conf);
+            var instance = NewObject(type, new ObjectCreationContext<object>(config));
             return instance;
         }
 
-        public static T NewObject<T>(Action<IFakeUpOptions<T>> opt)
+        public static T NewObject<T>(Action<IFakeUpConfig<T>> conf)
         {
-            var options = GetOptions(opt);
-            var instance = (T)NewObject(typeof(T), new ObjectCreationContext<T> { TypedOptions = options });
+            var config = GetConfig(conf);
+            var instance = (T)NewObject(typeof(T), new ObjectCreationContext<T>(config));
             return instance;
         }
 
-        private static FakeUpOptions<T> GetOptions<T>(Action<IFakeUpOptions<T>> action)
+        private static FakeUpConfig<T> GetConfig<T>(Action<IFakeUpConfig<T>> action)
         {
-            var opt = new FakeUpOptions<T>();
+            var opt = new FakeUpConfig<T>();
             action?.Invoke(opt);
             return opt;
         }
 
-        private static object NewObject<T>(Type type, ObjectCreationContext<T> context)
+        internal static object NewObject(Type type, IObjectCreationContext context)
         {
-            object instance = null;
-            try
+            object instance;
+            foreach (var evaluator in context.Evaluators)
             {
-                //Root
-                Func<object> fillEvaluator;
-                if (context.TypedOptions.RootMemberFillers.TryGetValue(context.InvocationPath, out fillEvaluator))
-                {
-                    return fillEvaluator();
-                }
-
-                //Relative
-                var bestMemberInfo = context.TypedOptions.RelativeTypeFillers
-                    .ToLookup(info => info.CallChain.GetMatchScore(context.InvocationStack))
-                    .Where(pair => pair.Key > 0)
-                    .OrderByDescending(pair => pair.Key)
-                    .Select(pair => pair.First())
-                    .FirstOrDefault();
-
-                if (bestMemberInfo != null)
-                {
-                    return bestMemberInfo.Evaluate();
-                }
-
-                //Type
-                if (context.TypedOptions.TypeFillers.TryGetValue(type, out fillEvaluator))
-                {
-                    return fillEvaluator();
-                }
-
-                //String
-                if (type == typeof(string))
-                {
-                    return string.Empty;
-                }
-
-                //Collections
-                if (TryCreateCollection(type, context, out instance))
+                if (evaluator.TryEvaluate(type, context, out instance))
                 {
                     return instance;
                 }
-
-                //Default
-                instance = Activator.CreateInstance(type);
-
-                //Set root
-                if (context.TypedRootObject == null)
-                {
-                    context.TypedRootObject = (T)instance;
-                }
             }
-            catch (MissingMethodException) //no parameterless c-tor
+
+            instance = CreateByActivator(type);
+
+            if (context.RootObject == null)
             {
-                return instance;
+                context.RootObject = instance;
             }
-            // TODO: get only properties with setters
-            var propertyInfos = type.GetProperties();
+
+            var propertyInfos = GetProperties(type);
             foreach (var propertyInfo in propertyInfos)
             {
                 if (propertyInfo.CanWrite)
@@ -109,74 +69,25 @@ namespace Playground.ObjectFaker
             return instance;
         }
 
-        private static bool TryCreateCollection<T>(Type type, ObjectCreationContext<T> context, out object instance)
+        private static object CreateByActivator(Type type)
         {
-            instance = TryCreateList(type, context) ?? TryCreateArray(type, context);
-            return instance != null;
+            object instance;
+            try
+            {
+                instance = Activator.CreateInstance(type);
+            }
+            catch (MissingMethodException) //no parameterless c-tor
+            {
+                instance = null;
+            }
+            return instance;
         }
 
-        private static Array TryCreateArray<T>(Type type, ObjectCreationContext<T> context)
+        private static PropertyInfo[] GetProperties(Type type)
         {
-            if (!typeof(IEnumerable).IsAssignableFrom(type))
-            {
-                return null;
-            }
-
-            var elementsInCollections = context.Options.ElementsInCollections;
-            var elementType = type.GetGenericArguments().FirstOrDefault();
-            Array array;
-            if (elementType != null)
-            {
-                array = Array.CreateInstance(elementType, elementsInCollections);
-            }
-            else
-            {
-                array = (Array) Activator.CreateInstance(type, elementsInCollections);
-                elementType = type.GetElementType();
-            }
-
-            for (int i = 0; i < elementsInCollections; i++)
-            {
-                Func<int, object> filler;
-                object value;
-                if (context.TypedOptions.ElementsTypeFillers.TryGetValue(type, out filler))
-                {
-                    value = filler(i);
-                }
-                else
-                {
-                    if (context.TypedOptions.AbsoluteElementsFillers.TryGetValue(context.InvocationPath, out filler))
-                    {
-                        value = filler(i);
-                    }
-                    else
-                    {
-                        value = NewObject(elementType, context);
-                    }
-                }
-                array.SetValue(value, i);
-            }
-            return array;
-        }
-
-        private static IList TryCreateList<T>(Type type, ObjectCreationContext<T> context)
-        {
-            if (!type.IsGenericList())
-            {
-                return null;
-            }
-
-            var elementType = type.HasElementType
-                ? type.GetElementType()
-                : type.GenericTypeArguments.First();
-            var list = (IList)Activator.CreateInstance(type);
-            var elementsInCollections = context.Options.ElementsInCollections;
-            for (var i = 0; i < elementsInCollections; i++)
-            {
-                var value = NewObject(elementType, context);
-                list.Add(value);
-            }
-            return list;
+            // TODO: add ability to set non-public properties
+            // TODO: add ability to set fields
+            return type.GetProperties(BindingFlags.Instance | BindingFlags.Public | BindingFlags.SetProperty);
         }
     }
 }

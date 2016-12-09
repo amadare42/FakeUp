@@ -1,9 +1,10 @@
 ﻿using System.Collections.Generic;
-using System.Reflection;
+using FakeUp.Extensions;
+using FakeUp.Tests.Data;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Playground.ObjectFaker.Tests.ExtensionsTests
+namespace FakeUp.Tests.ExtensionsTests
 {
     [TestClass]
     public class ExpressionExtensionsTests
@@ -12,14 +13,15 @@ namespace Playground.ObjectFaker.Tests.ExtensionsTests
         public void ShouldSplitToCallInfosSuccessfully()
         {
             // act
-            var calls = ExpressionExtensions.SplitToCalls<ValuesHolder<MetaIntHolder>, int>(h => h.Value1.Holder.IntValue2);
+            var calls =
+                ExpressionExtensions.SplitToCalls<ValuesHolder<MetaIntHolder>, int>(h => h.Value1.Holder.IntValue2);
 
             //assert
             var expected = new List<CallInfo>
             {
                 new CallInfo(typeof(MetaIntHolder), "Value1"),
                 new CallInfo(typeof(IntHolder), "Holder"),
-                new CallInfo(typeof(int), "IntValue2"),
+                new CallInfo(typeof(int), "IntValue2")
             };
             calls.ShouldBeEquivalentTo(expected, opt => opt.WithStrictOrdering());
         }

@@ -82,7 +82,7 @@
     <Compile Include="Data\ValuesHolder.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Playground.ObjectFaker\FakeUp.csproj">
+    <ProjectReference Include="..\FakeUp\FakeUp.csproj">
       <Project>{fa414a2c-e30d-4f58-a280-0bd658e36bd3}</Project>
       <Name>FakeUp</Name>
     </ProjectReference>

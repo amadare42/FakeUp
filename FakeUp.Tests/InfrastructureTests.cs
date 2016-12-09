@@ -1,13 +1,13 @@
 ﻿using System;
+using FakeUp.Tests.Data;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Playground.ObjectFaker.Tests
+namespace FakeUp.Tests
 {
     [TestClass]
     public class InfrastructureTests
     {
-
         [TestMethod]
         public void ShouldThrowWhenObjectHaveCyclicReferences()
         {

@@ -3,40 +3,57 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
-namespace Playground.ObjectFaker
+namespace FakeUp
 {
-    internal abstract class ObjectCreationContext
+    internal class ObjectCreationContext<T> : IObjectCreationContext
     {
-        protected ObjectCreationContext()
+        private static IValueEvaluator[] DefaultValueEvaluators
         {
-            InvocationStack = new Stack<PropertyInfo>();
+            get
+            {
+                return new IValueEvaluator[]
+                {
+                    new AbsolutePathEvaluator(),
+                    new RelativePathEvaluator(),
+                    new TypeEvaluator(),
+                    new EmptyStringEvaluator(),
+                    new ListEvaluator(),
+                    new ArrayEvaluator()
+                };
+            }
+        }
+
+        internal ObjectCreationContext(FakeUpConfig<T> config)
+        {
+            this.Config = config;
+            this.InvocationStack = new Stack<PropertyInfo>();
+            this.Evaluators = DefaultValueEvaluators;
         }
 
         public Stack<PropertyInfo> InvocationStack { get; set; }
-        internal Dictionary<string, Func<object>> RelativeMemberFactories { get; set; } = new Dictionary<string, Func<object>>();
-        internal Dictionary<string, Func<object>> AbsoluteMemberFactories { get; set; } = new Dictionary<string, Func<object>>();
-        public abstract object RootObject { get; }
-        public abstract FakeUpOptions Options { get; }
+
+        public IValueEvaluator[] Evaluators { get; }
+
+        public object NewObject(Type type)
+        {
+            return FakeUp.NewObject(type, this);
+        }
+
+        public T RootObject { get; set; }
+
+        object IObjectCreationContext.RootObject
+        {
+            get { return this.RootObject; }
+            set { this.RootObject = (T) value; }
+        }
+
+        IInternalFakeUpConfig IObjectCreationContext.Config => this.Config;
+
+        public FakeUpConfig<T> Config { get; set; }
 
         public string InvocationPath
         {
-            get { return string.Join(".", InvocationStack.Reverse().Select(propInfo => propInfo.Name).ToArray()); }
+            get { return string.Join(".", this.InvocationStack.Reverse().Select(propInfo => propInfo.Name).ToArray()); }
         }
-    }
-
-    internal class ObjectCreationContext<T> : ObjectCreationContext //where T : class //TODO: add class constraint
-    {
-        public ObjectCreationContext()
-        {
-            TypedOptions = new FakeUpOptions<T>();
-        }
-
-        public FakeUpOptions<T> TypedOptions { get; set; }
-
-        public override object RootObject => TypedRootObject;
-
-        public override FakeUpOptions Options => TypedOptions;
-
-        public T TypedRootObject { get; set; }
     }
 }

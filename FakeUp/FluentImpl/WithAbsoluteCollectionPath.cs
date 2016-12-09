@@ -1,39 +1,41 @@
 using System;
 using System.Linq.Expressions;
+using FakeUp.Extensions;
+using FakeUp.Fluent;
 
-namespace Playground.ObjectFaker
+namespace FakeUp.FluentImpl
 {
-    class WithAbsoluteCollectionPath<TFakeObject, TCollection> : ICollectionWith<TFakeObject>
+    internal class WithAbsoluteCollectionPath<TFakeObject, TCollection> : ICollectionWith<TFakeObject>
     {
         private readonly Expression<Func<TFakeObject, TCollection>> memberPath;
-        private readonly FakeUpOptions<TFakeObject> options;
+        private readonly FakeUpConfig<TFakeObject> config;
 
-        public WithAbsoluteCollectionPath(Expression<Func<TFakeObject, TCollection>> memberPath, 
-            FakeUpOptions<TFakeObject> options)
+        public WithAbsoluteCollectionPath(Expression<Func<TFakeObject, TCollection>> memberPath,
+            FakeUpConfig<TFakeObject> config)
         {
             this.memberPath = memberPath;
-            this.options = options;
+            this.config = config;
         }
 
-        public IFakeUpOptions<TFakeObject> With(Func<int, object> func)
+        public IFakeUpConfig<TFakeObject> With(Func<int, object> func)
         {
             var callPath = this.memberPath.ToCallPath();
-            this.options.AbsoluteElementsFillers.Add(callPath, func);
-            return this.options;
+            this.config.AbsoluteElementsFillers.Add(callPath, func);
+            return this.config;
         }
 
-        public IFakeUpOptions<TFakeObject> With(object constant)
+        public IFakeUpConfig<TFakeObject> With(object constant)
         {
             var callPath = this.memberPath.ToCallPath();
-            this.options.AbsoluteElementsFillers.Add(callPath, (index) => constant);
-            return this.options;
+            this.config.AbsoluteElementsFillers.Add(callPath, index => constant);
+            return this.config;
         }
 
-        public IFakeUpOptions<TFakeObject> With(Func<object> func)
+        public IFakeUpConfig<TFakeObject> With(Func<object> func)
         {
             var callPath = this.memberPath.ToCallPath();
-            this.options.AbsoluteElementsFillers.Add(callPath, (index) => func());
-            return this.options;
+            this.config.AbsoluteElementsFillers.Add(callPath, index => func());
+            return this.config;
         }
     }
 }

@@ -1,10 +1,11 @@
 using System;
 using System.Collections;
 using System.Linq.Expressions;
+using FakeUp.Fluent;
 
-namespace Playground.ObjectFaker
+namespace FakeUp
 {
-    public interface IFakeUpOptions<TFakeObject>
+    public interface IFakeUpConfig<TFakeObject>
     {
         IWith<TFakeObject, TMember> FillAll<TMember>();
 
@@ -18,6 +19,6 @@ namespace Playground.ObjectFaker
         ICollectionWith<TFakeObject> FillElementsOf<TCollection>(Expression<Func<TFakeObject, TCollection>> memberPath)
             where TCollection : IEnumerable;
 
-        IFakeUpOptions<TFakeObject> WithCollectionsSize(int elementsCount = FakeUp.DefaultCollectionElementCount);
+        IFakeUpConfig<TFakeObject> WithCollectionsSize(int elementsCount = FakeUp.DefaultCollectionElementCount);
     }
 }

@@ -1,7 +1,8 @@
-﻿using FluentAssertions;
+﻿using FakeUp.Tests.Data;
+using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Playground.ObjectFaker.Tests
+namespace FakeUp.Tests
 {
     [TestClass]
     public class TypeFillingTests
@@ -11,8 +12,8 @@ namespace Playground.ObjectFaker.Tests
         {
             // act
             var holder = FakeUp.NewObject<ValuesHolder<int>>
-                (options => options.FillAll<int>().With(42)
-                );
+            (options => options.FillAll<int>().With(42)
+            );
 
             // assert
             holder.Value1.Should().Be(42);
@@ -23,12 +24,12 @@ namespace Playground.ObjectFaker.Tests
         public void FilAll_ShouldFillMembersWithFunc()
         {
             // arrange
-            int i = 0;
+            var i = 0;
 
             // act
             var holder = FakeUp.NewObject<ValuesHolder<int>>
-                (options => options.FillAll<int>().With(() => i++)
-                );
+            (options => options.FillAll<int>().With(() => i++)
+            );
 
             // assert
             holder.Value1.Should().Be(0);

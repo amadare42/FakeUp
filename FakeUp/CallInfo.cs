@@ -1,7 +1,8 @@
 using System;
+using System.Collections.Generic;
 using System.Reflection;
 
-namespace Playground.ObjectFaker
+namespace FakeUp
 {
     public class CallInfo
     {
@@ -20,7 +21,7 @@ namespace Playground.ObjectFaker
 
         public bool IsSameCall(PropertyInfo propertyInfo)
         {
-            return PropType == propertyInfo.PropertyType && PropName == propertyInfo.Name;
+            return (this.PropType == propertyInfo.PropertyType) && (this.PropName == propertyInfo.Name);
         }
     }
 }
