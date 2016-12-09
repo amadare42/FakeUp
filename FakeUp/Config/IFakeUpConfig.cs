@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq.Expressions;
 using FakeUp.Fluent;
 
-namespace FakeUp
+namespace FakeUp.Config
 {
     public interface IFakeUpConfig<TFakeObject>
     {

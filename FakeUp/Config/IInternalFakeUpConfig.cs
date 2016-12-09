@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace FakeUp
+namespace FakeUp.Config
 {
     internal interface IInternalFakeUpConfig
     {

@@ -1,5 +1,6 @@
 using System;
 using System.Linq.Expressions;
+using FakeUp.Config;
 using FakeUp.Extensions;
 using FakeUp.Fluent;
 

@@ -46,6 +46,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Config\ConfigProvider.cs" />
     <Compile Include="Config\IConfigProvider.cs" />
     <Compile Include="ValueEvaluation\AbsolutePathEvaluator.cs" />
     <Compile Include="CallChain.cs" />
@@ -53,7 +54,6 @@
     <Compile Include="CallInfo.cs" />
     <Compile Include="Config\FakeUpConfig.cs" />
     <Compile Include="Extensions\ExpressionExtensions.cs" />
-    <Compile Include="AbsoluteMemberInfo.cs" />
     <Compile Include="Config\IInternalFakeUpConfig.cs" />
     <Compile Include="IObjectCreationContext.cs" />
     <Compile Include="RelativeMemberInfo.cs" />

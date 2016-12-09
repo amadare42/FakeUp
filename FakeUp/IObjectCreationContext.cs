@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Reflection;
+using FakeUp.Config;
 using FakeUp.ValueEvaluation;
 
 namespace FakeUp

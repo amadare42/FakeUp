@@ -5,7 +5,7 @@ using System.Linq.Expressions;
 using FakeUp.Fluent;
 using FakeUp.FluentImpl;
 
-namespace FakeUp
+namespace FakeUp.Config
 {
     internal class FakeUpConfig<TFakeObject> : IFakeUpConfig<TFakeObject>, IInternalFakeUpConfig
     {
@@ -73,7 +73,7 @@ namespace FakeUp
 
         public IFakeUpConfig<TFakeObject> WithConfigurations(params Action<IFakeUpConfig<TFakeObject>>[] configs)
         {
-            var enumerable = (IEnumerable<Action<IFakeUpConfig<TFakeObject>>>) configs;
+            var enumerable = (IEnumerable<Action<IFakeUpConfig<TFakeObject>>>)configs;
             return WithConfigurations(enumerable);
         }
 

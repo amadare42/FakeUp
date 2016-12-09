@@ -1,4 +1,5 @@
 using System;
+using FakeUp.Config;
 
 namespace FakeUp.Fluent
 {
