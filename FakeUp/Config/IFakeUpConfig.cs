@@ -26,7 +26,7 @@ namespace FakeUp.Config
         ICollectionWith<TFakeObject> FillElementsOf<TCollection>(Expression<Func<TFakeObject, TCollection>> memberPath)
             where TCollection : IEnumerable;
 
-        IFakeUpConfig<TFakeObject> WithCollectionsSize(int elementsCount);
+        IFakeUpConfig<TFakeObject> WithCollectionsSize(int defaultSize);
 
         IFakeUpConfig<TFakeObject> WithCollectionsSize<TCollection>(
             Expression<Func<TFakeObject, TCollection>> collectionPath, int size

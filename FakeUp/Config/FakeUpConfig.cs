@@ -13,8 +13,6 @@ namespace FakeUp.Config
     {
         public const int DefaultCollectionElementCount = 1;
 
-        protected Func<int> ElementsInCollectionsSourceFunc;
-
         public FakeUpConfig()
         {
             this.AbsoluteElementsFillers = new Dictionary<string, Func<int, object>>();
@@ -68,9 +66,9 @@ namespace FakeUp.Config
             return new WithAbsoluteCollectionPath<TFakeObject, TCollection>(memberPath, this);
         }
 
-        public IFakeUpConfig<TFakeObject> WithCollectionsSize(int elementsCount = DefaultCollectionElementCount)
+        public IFakeUpConfig<TFakeObject> WithCollectionsSize(int defaultSize)
         {
-            this.ElementsInCollectionsSourceFunc = () => elementsCount;
+            this.DefaultCollectionsSize = defaultSize;
             return this;
         }
 
