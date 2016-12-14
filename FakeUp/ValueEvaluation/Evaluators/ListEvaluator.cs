@@ -2,8 +2,9 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using FakeUp.Extensions;
 
-namespace FakeUp.ValueEvaluation
+namespace FakeUp.ValueEvaluation.Evaluators
 {
     internal class ListEvaluator : IValueEvaluator
     {
@@ -17,9 +18,9 @@ namespace FakeUp.ValueEvaluation
             var elementType = type.HasElementType
                 ? type.GetElementType()
                 : type.GenericTypeArguments.First();
-            var elementsInCollections = context.Config.ElementsInCollections;
+            var elementsInCollections = context.GetCollectionSize();
 
-            var list = (IList) Activator.CreateInstance(type);
+            var list = (IList)Activator.CreateInstance(type);
             for (var i = 0; i < elementsInCollections; i++)
             {
                 var value = context.NewObject(elementType);

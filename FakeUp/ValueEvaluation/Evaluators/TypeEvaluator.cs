@@ -1,6 +1,6 @@
 using System;
 
-namespace FakeUp.ValueEvaluation
+namespace FakeUp.ValueEvaluation.Evaluators
 {
     internal class TypeEvaluator : IValueEvaluator
     {

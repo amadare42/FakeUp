@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Reflection;
 
-namespace FakeUp
+namespace FakeUp.RelativePathing
 {
     public class CallChain
     {

@@ -70,6 +70,9 @@
   </Choose>
   <ItemGroup>
     <Compile Include="Configuration\ConfigurationTests.cs" />
+    <Compile Include="Data\IntArrayHolder.cs" />
+    <Compile Include="Data\MetaHolder.cs" />
+    <Compile Include="Data\MetaIntArrayHolder.cs" />
     <Compile Include="Filling\CollectionsFillingTests.cs" />
     <Compile Include="Data\CyclicHolder.cs" />
     <Compile Include="Data\IntHolder.cs" />

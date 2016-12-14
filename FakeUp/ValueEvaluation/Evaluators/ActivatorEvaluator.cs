@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
-namespace FakeUp.ValueEvaluation
+namespace FakeUp.ValueEvaluation.Evaluators
 {
     internal class ActivatorEvaluator : IValueEvaluator
     {

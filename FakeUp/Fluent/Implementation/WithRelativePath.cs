@@ -2,9 +2,9 @@ using System;
 using System.Linq.Expressions;
 using FakeUp.Config;
 using FakeUp.Extensions;
-using FakeUp.Fluent;
+using FakeUp.RelativePathing;
 
-namespace FakeUp.FluentImpl
+namespace FakeUp.Fluent.Implementation
 {
     internal class WithRelativePath<TFakeObject, TMember, TMetaMember> : IWith<TFakeObject, TMetaMember>
     {
@@ -19,7 +19,7 @@ namespace FakeUp.FluentImpl
 
         public IFakeUpConfig<TFakeObject> With(TMetaMember constant)
         {
-            var relativeMemberInfo = new RelativeMemberInfo(
+            var relativeMemberInfo = new FillerRelativeMemberInfo(
                 () => constant,
                 this.memberExpr.ToCallChain(),
                 typeof(TMember),
@@ -31,7 +31,7 @@ namespace FakeUp.FluentImpl
 
         public IFakeUpConfig<TFakeObject> With(Func<TMetaMember> func)
         {
-            var relativeMemberInfo = new RelativeMemberInfo(
+            var relativeMemberInfo = new FillerRelativeMemberInfo(
                 () => func(),
                 this.memberExpr.ToCallChain(),
                 typeof(TMember),

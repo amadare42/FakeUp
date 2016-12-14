@@ -26,29 +26,18 @@ namespace FakeUp.Config
         ICollectionWith<TFakeObject> FillElementsOf<TCollection>(Expression<Func<TFakeObject, TCollection>> memberPath)
             where TCollection : IEnumerable;
 
-        // TODO: extend ability to specify collection size
-        /*  so following calls should be possible:
-         *
-         *  .WithCollectionSize(3)
-         *  .WithCollectionSize(foo => foo.BarCollection, 3)
-         *  .WithCollectionSize<Bar[]>(3)
-         *  .WithCollectionSize(baz => baz.foo.BarCollection, 3)
-        */
+        IFakeUpConfig<TFakeObject> WithCollectionsSize(int elementsCount);
 
-        // TODO: move DefaultCollectionElementCount constant to other place
-        IFakeUpConfig<TFakeObject> WithCollectionsSize(int elementsCount = FakeUp.DefaultCollectionElementCount);
+        IFakeUpConfig<TFakeObject> WithCollectionsSize<TCollection>(
+            Expression<Func<TFakeObject, TCollection>> collectionPath, int size
+        ) where TCollection : IEnumerable;
 
-        // TODO: add ability to use previously created config as base
-        /*  so following calls should be possible:
-         *
-         *  var fooFillingConfig = FakeUpConfig.Create(conf => conf.Fill<Foo>().With(new Foo()));
-         *  var quxFillingConfig = FakeUpConfig.Create(conf => conf.Fill<Qux>().With(new Qux()));
-         *
-         *  FakeUp.NewObject<Bar>(conf => conf
-         *      .WithConfigurations(fooFillingConfig, quxFillingConfig)
-         *      .Fill<Baz>().With(null)
-         * )
-         */
+        IFakeUpConfig<TFakeObject> WithCollectionsSize<TRelative, TCollection>(
+            Expression<Func<TRelative, TCollection>> collectionPath, int size
+        ) where TCollection : IEnumerable;
+
+        IFakeUpConfig<TFakeObject> WithCollectionsSize<TCollection>(int size)
+            where TCollection : IEnumerable;
 
         // TODO: add ability to set default configuration
         /*  so following calls should be possible:
@@ -64,7 +53,7 @@ namespace FakeUp.Config
          *  .InStrictMode()
          */
 
-        IFakeUpConfig<TFakeObject> WithConfigurations(params Action<IFakeUpConfig<TFakeObject>>[] configs);
+        IFakeUpConfig<TFakeObject> WithConfiguration(params Action<IFakeUpConfig<TFakeObject>>[] configs);
 
         IFakeUpConfig<TFakeObject> WithConfigurations(IEnumerable<Action<IFakeUpConfig<TFakeObject>>> configs);
     }

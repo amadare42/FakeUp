@@ -74,8 +74,55 @@ namespace FakeUp.Tests.Filling
                     .WithCollectionsSize(42)
             );
 
-            //assert
+            // assert
             instance.Value1.Length.Should().Be(42);
+        }
+
+        [TestMethod]
+        public void ShouldFillCollectionsWithAbsolutePathSpecifiedSize()
+        {
+            // act
+            var instance = FakeUp.NewObject<ValuesHolder<int[]>>(o => o
+                    .WithCollectionsSize(3)
+                    .WithCollectionsSize(holder => holder.Value1, 1)
+                    .WithCollectionsSize(holder => holder.Value2, 2)
+            );
+
+            // assert
+            instance.Value1.Length.Should().Be(1);
+            instance.Value2.Length.Should().Be(2);
+            instance.Value3.Length.Should().Be(3);
+        }
+
+        [TestMethod]
+        public void ShouldFillCollectionWithTypeSpecifiedSize()
+        {
+            // act
+            var instance = FakeUp.NewObject<ValuesHolder<int[], long[]>>(o => o
+                    .WithCollectionsSize<int[]>(1)
+                    .WithCollectionsSize<long[]>(2)
+            );
+
+            // assert
+            instance.Value1.Length.Should().Be(1);
+            instance.Value2.Length.Should().Be(2);
+        }
+
+        [TestMethod]
+        public void ShouldFillCollectionWithRelativePathSpecifiedSize()
+        {
+            // act
+            var instance = FakeUp.NewObject<ValuesHolder<MetaIntArrayHolder>>(o => o
+                   .WithCollectionsSize((IntArrayHolder holder) => holder.IntArray1, 1)
+                   .WithCollectionsSize((IntArrayHolder holder) => holder.IntArray2, 2)
+                   .WithCollectionsSize<int[]>(3)
+            );
+
+            // assert
+            instance.Value1.Holder.IntArray1.Length.Should().Be(1);
+            instance.Value1.Holder.IntArray2.Length.Should().Be(2);
+            instance.Value1.Holder.IntArray3.Length.Should().Be(3);
+            instance.Value1.IntArray.Length.Should().Be(3);
         }
     }
 }

@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using FakeUp.Config;
+using FakeUp.RelativePathing;
 using FakeUp.ValueEvaluation;
+using FakeUp.ValueEvaluation.Evaluators;
 
 namespace FakeUp
 {
@@ -36,6 +38,14 @@ namespace FakeUp
         public Stack<PropertyInfo> InvocationStack { get; set; }
 
         public IValueEvaluator[] Evaluators { get; }
+
+        public Type CurrentPropertyType
+        {
+            get
+            {
+                return this.InvocationStack.Peek().PropertyType;
+            }
+        }
 
         public object NewObject(Type type)
         {

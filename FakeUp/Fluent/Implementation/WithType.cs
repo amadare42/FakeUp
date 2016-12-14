@@ -1,8 +1,7 @@
 ﻿using System;
 using FakeUp.Config;
-using FakeUp.Fluent;
 
-namespace FakeUp.FluentImpl
+namespace FakeUp.Fluent.Implementation
 {
     internal class WithType<TFakeObject, TMember> : IWith<TFakeObject, TMember>
     {

@@ -2,9 +2,8 @@ using System;
 using System.Linq.Expressions;
 using FakeUp.Config;
 using FakeUp.Extensions;
-using FakeUp.Fluent;
 
-namespace FakeUp.FluentImpl
+namespace FakeUp.Fluent.Implementation
 {
     internal class WithAbsolutePath<TFakeObject, TMember> : IWith<TFakeObject, TMember>
     {

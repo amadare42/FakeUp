@@ -46,36 +46,40 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="RelativePathing\BaseRelativeMemberInfo.cs" />
+    <Compile Include="RelativePathing\CollectionSizeRelativeMemberInfo.cs" />
     <Compile Include="Config\ConfigProvider.cs" />
     <Compile Include="Config\IConfigProvider.cs" />
+    <Compile Include="RelativePathing\RelativeTypeHelper.cs" />
     <Compile Include="FillingException.cs" />
-    <Compile Include="ValueEvaluation\AbsolutePathEvaluator.cs" />
-    <Compile Include="CallChain.cs" />
+    <Compile Include="ValueEvaluation\Evaluators\AbsolutePathEvaluator.cs" />
+    <Compile Include="RelativePathing\CallChain.cs" />
     <Compile Include="FakeUp.cs" />
     <Compile Include="CallInfo.cs" />
     <Compile Include="Config\FakeUpConfig.cs" />
     <Compile Include="Extensions\ExpressionExtensions.cs" />
     <Compile Include="Config\IInternalFakeUpConfig.cs" />
     <Compile Include="IObjectCreationContext.cs" />
-    <Compile Include="RelativeMemberInfo.cs" />
-    <Compile Include="FluentImpl\WithType.cs" />
-    <Compile Include="FluentImpl\WithCollectionType.cs" />
+    <Compile Include="RelativePathing\FillerRelativeMemberInfo.cs" />
+    <Compile Include="Fluent\Implementation\WithType.cs" />
+    <Compile Include="Fluent\Implementation\WithCollectionType.cs" />
     <Compile Include="Fluent\ICollectionWith.cs" />
     <Compile Include="Config\IFakeUpConfig.cs" />
     <Compile Include="Fluent\IWith.cs" />
-    <Compile Include="FluentImpl\WithAbsolutePath.cs" />
-    <Compile Include="FluentImpl\WithRelativePath.cs" />
-    <Compile Include="FluentImpl\WithAbsoluteCollectionPath.cs" />
+    <Compile Include="Fluent\Implementation\WithAbsolutePath.cs" />
+    <Compile Include="Fluent\Implementation\WithRelativePath.cs" />
+    <Compile Include="Fluent\Implementation\WithAbsoluteCollectionPath.cs" />
     <Compile Include="ObjectCreationContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ValueEvaluation\ActivatorEvaluator.cs" />
-    <Compile Include="ValueEvaluation\ArrayEvaluator.cs" />
-    <Compile Include="ValueEvaluation\EmptyStringEvaluator.cs" />
+    <Compile Include="ValueEvaluation\Evaluators\ActivatorEvaluator.cs" />
+    <Compile Include="ValueEvaluation\Evaluators\ArrayEvaluator.cs" />
+    <Compile Include="Extensions\ConfigExtensions.cs" />
+    <Compile Include="ValueEvaluation\Evaluators\EmptyStringEvaluator.cs" />
     <Compile Include="ValueEvaluation\EvaluationResult.cs" />
     <Compile Include="ValueEvaluation\IValueEvaluator.cs" />
-    <Compile Include="ValueEvaluation\ListEvaluator.cs" />
-    <Compile Include="ValueEvaluation\RelativePathEvaluator.cs" />
-    <Compile Include="ValueEvaluation\TypeEvaluator.cs" />
+    <Compile Include="ValueEvaluation\Evaluators\ListEvaluator.cs" />
+    <Compile Include="ValueEvaluation\Evaluators\RelativePathEvaluator.cs" />
+    <Compile Include="ValueEvaluation\Evaluators\TypeEvaluator.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

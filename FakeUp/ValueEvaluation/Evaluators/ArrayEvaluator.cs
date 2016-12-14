@@ -1,8 +1,9 @@
 using System;
 using System.Collections;
 using System.Linq;
+using FakeUp.Extensions;
 
-namespace FakeUp.ValueEvaluation
+namespace FakeUp.ValueEvaluation.Evaluators
 {
     internal class ArrayEvaluator : IValueEvaluator
     {
@@ -13,7 +14,7 @@ namespace FakeUp.ValueEvaluation
                 return EvaluationResult.Empty;
             }
 
-            var elementsInCollections = context.Config.ElementsInCollections;
+            var elementsInCollections = context.GetCollectionSize();
             var elementType = type.GetGenericArguments().FirstOrDefault();
             Array array;
             if (elementType != null)
@@ -22,7 +23,7 @@ namespace FakeUp.ValueEvaluation
             }
             else
             {
-                array = (Array) Activator.CreateInstance(type, elementsInCollections);
+                array = (Array)Activator.CreateInstance(type, elementsInCollections);
                 elementType = type.GetElementType();
             }
 

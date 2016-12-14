@@ -5,9 +5,6 @@ namespace FakeUp
 {
     public static class FakeUp
     {
-        public const int DefaultCollectionElementCount = 1;
-
-
         public static T NewObject<T>()
         {
             var config = new FakeUpConfig<T>();

@@ -21,7 +21,7 @@ namespace FakeUp.Tests.Configuration
 
             // act
             var instance = FakeUp.NewObject<ValuesHolder<int>>(config => config
-                    .WithConfigurations(fillingConfig1, fillingConfig2)
+                    .WithConfiguration(fillingConfig1, fillingConfig2)
                     .Fill(holder => holder.Value3).With(3)
             );
 

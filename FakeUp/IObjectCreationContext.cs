@@ -1,6 +1,7 @@
 using System;
 using System.Reflection;
 using FakeUp.Config;
+using FakeUp.RelativePathing;
 using FakeUp.ValueEvaluation;
 
 namespace FakeUp
@@ -12,6 +13,8 @@ namespace FakeUp
         string InvocationPath { get; }
 
         IValueEvaluator[] Evaluators { get; }
+
+        Type CurrentPropertyType { get; }
 
         object NewObject(Type type);
 
