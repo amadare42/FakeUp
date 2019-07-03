@@ -10,7 +10,7 @@ namespace FakeUp.Tests
         public void FillAll_CyclicReferences_FillFirst4ByDefault()
         {
             // Act
-            var instance = FakeUp.NewObject<CyclicHolder<int>>(o => o
+            var instance = FakeUpLib.FakeUp.NewObject<CyclicHolder<int>>(o => o
                 .FillAll<int>().With(5)
             );
             

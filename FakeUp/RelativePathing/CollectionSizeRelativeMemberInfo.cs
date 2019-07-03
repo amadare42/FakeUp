@@ -1,6 +1,6 @@
 using System;
 
-namespace FakeUp.RelativePathing
+namespace FakeUpLib.RelativePathing
 {
     public class CollectionSizeRelativeMemberInfo : BaseRelativeMemberInfo
     {
@@ -9,6 +9,11 @@ namespace FakeUp.RelativePathing
         public CollectionSizeRelativeMemberInfo(int size, Type rootType, Type targetType, CallChain callChain) : base(rootType, targetType, callChain)
         {
             this.Size = size;
+        }
+
+        public override string ToString()
+        {
+            return $"RelativeMember[{this.RootType} {this.CallChain}]";
         }
     }
 }

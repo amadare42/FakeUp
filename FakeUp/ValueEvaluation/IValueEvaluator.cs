@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace FakeUp.ValueEvaluation
+namespace FakeUpLib.ValueEvaluation
 {
     public interface IValueEvaluator
     {

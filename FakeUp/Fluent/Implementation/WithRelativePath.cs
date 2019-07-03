@@ -1,10 +1,10 @@
 using System;
 using System.Linq.Expressions;
-using FakeUp.Config;
-using FakeUp.Extensions;
-using FakeUp.RelativePathing;
+using FakeUpLib.Config;
+using FakeUpLib.Extensions;
+using FakeUpLib.RelativePathing;
 
-namespace FakeUp.Fluent.Implementation
+namespace FakeUpLib.Fluent.Implementation
 {
     internal class WithRelativePath<TFakeObject, TMember, TMetaMember> : IWith<TFakeObject, TMetaMember>
     {

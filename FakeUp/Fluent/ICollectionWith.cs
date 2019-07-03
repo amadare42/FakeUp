@@ -1,7 +1,7 @@
 using System;
-using FakeUp.Config;
+using FakeUpLib.Config;
 
-namespace FakeUp.Fluent
+namespace FakeUpLib.Fluent
 {
     public interface ICollectionWith<TFakeObject>
     {

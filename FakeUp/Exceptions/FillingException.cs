@@ -1,6 +1,6 @@
 using System;
 
-namespace FakeUp.Exceptions
+namespace FakeUpLib.Exceptions
 {
     [Serializable]
     public class FillingException : Exception

@@ -2,14 +2,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq.Expressions;
-using FakeUp.Extensions;
-using FakeUp.Fluent;
-using FakeUp.Fluent.Implementation;
-using FakeUp.RelativePathing;
-using FakeUp.States;
-using FakeUp.ValueEvaluation;
+using FakeUpLib.Extensions;
+using FakeUpLib.Fluent;
+using FakeUpLib.Fluent.Implementation;
+using FakeUpLib.RelativePathing;
+using FakeUpLib.States;
+using FakeUpLib.ValueEvaluation;
 
-namespace FakeUp.Config
+namespace FakeUpLib.Config
 {
     internal class FakeUpConfig<TFakeObject> : IFakeUpConfig<TFakeObject>, IInternalFakeUpConfig
     {

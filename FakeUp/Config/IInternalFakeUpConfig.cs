@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using FakeUp.RelativePathing;
-using FakeUp.ValueEvaluation;
+using FakeUpLib.RelativePathing;
+using FakeUpLib.ValueEvaluation;
 
-namespace FakeUp.Config
+namespace FakeUpLib.Config
 {
     public interface IInternalFakeUpConfig
     {

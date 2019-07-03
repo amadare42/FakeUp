@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
-using FakeUp.Extensions;
 using FakeUp.Tests.Data;
+using FakeUpLib;
+using FakeUpLib.Extensions;
 using FluentAssertions;
 using Xunit;
 
@@ -18,9 +19,9 @@ namespace FakeUp.Tests.ExtensionsTests
             //assert
             var expected = new List<CallInfo>
             {
-                new CallInfo(typeof(MetaIntHolder), "Value1"),
-                new CallInfo(typeof(IntHolder), "Holder"),
-                new CallInfo(typeof(int), "IntValue2")
+                new CallInfo(typeof(ValuesHolder<MetaIntHolder>).GetProperty("Value1")),
+                new CallInfo(typeof(MetaIntHolder).GetProperty("Holder")),
+                new CallInfo(typeof(IntHolder).GetProperty("IntValue2"))
             };
             calls.ShouldBeEquivalentTo(expected, opt => opt.WithStrictOrdering());
         }

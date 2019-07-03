@@ -1,10 +1,10 @@
 using System;
 using System.Reflection;
-using FakeUp.Config;
-using FakeUp.RelativePathing;
-using FakeUp.ValueEvaluation;
+using FakeUpLib.Config;
+using FakeUpLib.RelativePathing;
+using FakeUpLib.ValueEvaluation;
 
-namespace FakeUp
+namespace FakeUpLib
 {
     public interface IObjectCreationContext
     {
@@ -24,7 +24,7 @@ namespace FakeUp
 
         PropertyInfo PopInvocation();
 
-        int GetMatchScore(CallChain callChain);
+        int GetMatchScore(BaseRelativeMemberInfo relativeMemberInfo);
 
         int GetCyclicReferencesDepth();
     }

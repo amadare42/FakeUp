@@ -1,26 +1,32 @@
 using System;
 using System.Reflection;
 
-namespace FakeUp
+namespace FakeUpLib
 {
     public class CallInfo
     {
+
         public CallInfo()
         {
         }
 
-        public CallInfo(Type propType, string propName)
+        public CallInfo(PropertyInfo propertyInfo)
         {
-            this.PropType = propType;
-            this.PropName = propName;
+            this.PropertyInfo = propertyInfo;
         }
+        public PropertyInfo PropertyInfo { get; }
 
-        public Type PropType { get; set; }
-        public string PropName { get; set; }
+        public Type PropType => this.PropertyInfo.PropertyType;
+        public string PropName => this.PropertyInfo.Name;
 
         public bool IsSameCall(PropertyInfo propertyInfo)
         {
-            return (this.PropType == propertyInfo.PropertyType) && (this.PropName == propertyInfo.Name);
+            return this.PropertyInfo == propertyInfo;
+        }
+
+        public override string ToString()
+        {
+            return $"CallInfo[{this.PropertyInfo}]";
         }
     }
 }

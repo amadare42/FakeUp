@@ -1,6 +1,6 @@
 using System;
 
-namespace FakeUp.ValueEvaluation.Evaluators
+namespace FakeUpLib.ValueEvaluation.Evaluators
 {
     internal class AbsolutePathEvaluator : IValueEvaluator
     {

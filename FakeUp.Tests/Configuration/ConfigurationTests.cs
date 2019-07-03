@@ -10,16 +10,16 @@ namespace FakeUp.Tests.Configuration
         public void WithConfiguration_ApplyConfigurations()
         {
             // Arrange
-            var fillingConfig1 = FakeUp.Config.Create<IntValueHolder>(options => options
+            var fillingConfig1 = FakeUpLib.FakeUp.Config.Create<IntValueHolder>(options => options
                 .Fill(holder => holder.Value1).With(1)
             );
 
-            var fillingConfig2 = FakeUp.Config.Create<IntValueHolder>(options => options
+            var fillingConfig2 = FakeUpLib.FakeUp.Config.Create<IntValueHolder>(options => options
                 .Fill(holder => holder.Value2).With(2)
             );
 
             // Act
-            var instance = FakeUp.NewObject<IntValueHolder>(config => config
+            var instance = FakeUpLib.FakeUp.NewObject<IntValueHolder>(config => config
                 .WithConfiguration(fillingConfig1, fillingConfig2)
                 .Fill(holder => holder.Value3).With(3)
             );
@@ -34,12 +34,12 @@ namespace FakeUp.Tests.Configuration
         public void With_Config_GeneratesValueByConfig()
         {
             // Arrange
-            var fillingConfig = FakeUp.Config.Create<ValuesHolder<string>>(options => options
+            var fillingConfig = FakeUpLib.FakeUp.Config.Create<ValuesHolder<string>>(options => options
                 .FillAll<string>().With(ctx => ctx.InvocationPath)
             );
 
             // Act
-            var instance = FakeUp.NewObject<ValuesHolder<ValuesHolder<string>>>(o => o
+            var instance = FakeUpLib.FakeUp.NewObject<ValuesHolder<ValuesHolder<string>>>(o => o
                 .FillAll<string>().With("constant")
                 .Fill(vh => vh.Value2).With(fillingConfig)
             );

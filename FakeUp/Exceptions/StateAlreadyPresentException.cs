@@ -1,6 +1,6 @@
 using System;
 
-namespace FakeUp.Exceptions
+namespace FakeUpLib.Exceptions
 {
     public class StateAlreadyPresentException : Exception
     {

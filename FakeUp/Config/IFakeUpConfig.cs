@@ -2,10 +2,10 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq.Expressions;
-using FakeUp.Fluent;
-using FakeUp.ValueEvaluation;
+using FakeUpLib.Fluent;
+using FakeUpLib.ValueEvaluation;
 
-namespace FakeUp.Config
+namespace FakeUpLib.Config
 {
     public interface IFakeUpConfig<TFakeObject>
     {

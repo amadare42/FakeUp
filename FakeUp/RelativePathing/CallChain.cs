@@ -1,27 +1,30 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
-namespace FakeUp.RelativePathing
+namespace FakeUpLib.RelativePathing
 {
     public class CallChain
     {
-        public CallChain(List<CallInfo> calls)
+        private readonly Type rootType;
+
+        public CallChain(IList<CallInfo> calls, Type rootType)
         {
-            this.Calls = calls;
+            this.rootType = rootType;
+            this.calls = calls.ToList();
         }
 
-        public List<CallInfo> Calls { get; }
+        private List<CallInfo> calls { get; }
 
         public int GetMatchScore(IEnumerable<PropertyInfo> propertyChain)
         {
             var score = 0;
-            var reverseCalls = Enumerable.Reverse(this.Calls).ToList();
-            var otherReverseCalls = propertyChain.ToList();
+            var chain = propertyChain.Reverse().SkipWhile(c => c.DeclaringType != this.rootType).ToList();
 
-            for (var i = 0; i < reverseCalls.Count; i++)
+            for (var i = 0; i < this.calls.Count; i++)
             {
-                if ((otherReverseCalls.Count <= i) || !reverseCalls[i].IsSameCall(otherReverseCalls[i]))
+                if ((chain.Count <= i) || !this.calls[i].IsSameCall(chain[i]))
                 {
                     return 0;
                 }
@@ -29,6 +32,11 @@ namespace FakeUp.RelativePathing
             }
 
             return score;
+        }
+
+        public override string ToString()
+        {
+            return $"CallChain[{string.Join(".", this.calls.Select(c => c.PropName))}]";
         }
     }
 }

@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using FakeUp.Exceptions;
+using FakeUpLib.Exceptions;
 
-namespace FakeUp.States
+namespace FakeUpLib.States
 {
     internal class StatesRepository
     {

@@ -1,8 +1,8 @@
 using System;
-using FakeUp.Config;
-using FakeUp.RelativePathing;
+using FakeUpLib.Config;
+using FakeUpLib.RelativePathing;
 
-namespace FakeUp.Extensions
+namespace FakeUpLib.Extensions
 {
     public static class ConfigExtensions
     {
@@ -37,7 +37,7 @@ namespace FakeUp.Extensions
 
         public static T FakeUp<T>(this Action<IFakeUpConfig<T>> config)
         {
-            return global::FakeUp.FakeUp.NewObject(config);
+            return global::FakeUpLib.FakeUp.NewObject(config);
         }
     }
 }

@@ -3,15 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
-using FakeUp.RelativePathing;
+using FakeUpLib.RelativePathing;
 
-namespace FakeUp.Extensions
+namespace FakeUpLib.Extensions
 {
     internal static class ExpressionExtensions
     {
         internal static CallChain ToCallChain<TObject, TMember>(this Expression<Func<TObject, TMember>> expr)
         {
-            return new CallChain(expr.SplitToCalls().ToList());
+            return new CallChain(expr.SplitToCalls().ToList(), typeof(TObject));
         }
 
         /// <summary>
@@ -22,7 +22,7 @@ namespace FakeUp.Extensions
         internal static CallInfo[] SplitToCalls<TObject, TMember>(this Expression<Func<TObject, TMember>> expr)
         {
             return GetPropertyInfosSequence(expr)
-                .Select(member => new CallInfo(member.PropertyType, member.Name))
+                .Select(member => new CallInfo(member))
                 .ToArray();
         }
 

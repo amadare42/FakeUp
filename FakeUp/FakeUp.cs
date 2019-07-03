@@ -1,8 +1,8 @@
 ﻿using System;
-using FakeUp.Config;
-using FakeUp.Exceptions;
+using FakeUpLib.Config;
+using FakeUpLib.Exceptions;
 
-namespace FakeUp
+namespace FakeUpLib
 {
     public static class FakeUp
     {

@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
-using FakeUp.Exceptions;
+using FakeUpLib.Exceptions;
 
-namespace FakeUp.States
+namespace FakeUpLib.States
 {
     internal class StatesConfig
     {

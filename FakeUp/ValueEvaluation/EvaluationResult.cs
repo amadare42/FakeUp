@@ -1,4 +1,4 @@
-﻿namespace FakeUp.ValueEvaluation
+﻿namespace FakeUpLib.ValueEvaluation
 {
     public class EvaluationResult
     {

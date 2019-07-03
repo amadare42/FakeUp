@@ -1,6 +1,8 @@
+using System;
+using System.Collections.Generic;
 using System.Linq;
-using FakeUp.Extensions;
 using FakeUp.Tests.Data;
+using FakeUpLib.Extensions;
 using FluentAssertions;
 using Xunit;
 
@@ -12,7 +14,7 @@ namespace FakeUp.Tests.StatesTests
         public void GetState_LocatesSameStateForDifferentFills()
         {
             // Act
-            var result = FakeUp.NewObject<ValuesHolder<int[], string[]>>(o => o
+            var result = FakeUpLib.FakeUp.NewObject<ValuesHolder<int[], string[]>>(o => o
                 .AddState(() => new []{ 1,2,3 })
                 .Fill(vh => vh.Value1).With(ctx => ctx.GetState<int[]>())
                 .Fill(vh => vh.Value2).With(ctx => ctx.GetState<int[]>().Select(v => v + "!").ToArray())
@@ -27,7 +29,7 @@ namespace FakeUp.Tests.StatesTests
         public void GetState_LocatesStatesWithSameTypeByTag()
         {
             // Act
-            var result = FakeUp.NewObject<int>(o => o
+            var result = FakeUpLib.FakeUp.NewObject<int>(o => o
                 .AddState("number1", () => 42)
                 .AddState("number2", () => 12)
                 .FillAll<int>().With(ctx => ctx.GetState<int>("number1") + ctx.GetState<int>("number2"))
@@ -44,7 +46,7 @@ namespace FakeUp.Tests.StatesTests
             var stateValue = 0;
             
             // Act
-            var config = FakeUp.Config.Create<int>(o => o
+            var config = FakeUpLib.FakeUp.Config.Create<int>(o => o
                 .AddState(() => stateValue++)
                 .FillAll<int>().With(ctx => ctx.GetState<int>())
             );

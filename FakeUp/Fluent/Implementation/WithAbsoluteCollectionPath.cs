@@ -1,9 +1,9 @@
 using System;
 using System.Linq.Expressions;
-using FakeUp.Config;
-using FakeUp.Extensions;
+using FakeUpLib.Config;
+using FakeUpLib.Extensions;
 
-namespace FakeUp.Fluent.Implementation
+namespace FakeUpLib.Fluent.Implementation
 {
     internal class WithAbsoluteCollectionPath<TFakeObject, TCollection> : ICollectionWith<TFakeObject>
     {

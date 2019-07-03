@@ -1,7 +1,7 @@
 using System;
-using FakeUp.RelativePathing;
+using FakeUpLib.RelativePathing;
 
-namespace FakeUp.ValueEvaluation.Evaluators
+namespace FakeUpLib.ValueEvaluation.Evaluators
 {
     internal class RelativePathEvaluator : IValueEvaluator
     {

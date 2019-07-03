@@ -10,7 +10,7 @@ namespace FakeUp.Tests.Filling
         public void Fill_Constant_FillMemberByPath()
         {
             // Act
-            var instance = FakeUp.NewObject<ValuesHolder<int>>(opt =>
+            var instance = FakeUpLib.FakeUp.NewObject<ValuesHolder<int>>(opt =>
                 opt.Fill(holder => holder.Value1).With(42)
             );
 
@@ -25,7 +25,7 @@ namespace FakeUp.Tests.Filling
             var i = 0;
 
             // Act
-            var instance = FakeUp.NewObject<ValuesHolder<int>>(opt => opt
+            var instance = FakeUpLib.FakeUp.NewObject<ValuesHolder<int>>(opt => opt
                 .Fill(holder => holder.Value1).With(() => i++)
                 .Fill(holder => holder.Value2).With(() => i++)
             );
@@ -39,7 +39,7 @@ namespace FakeUp.Tests.Filling
         public void Fill_PrioritizedOverFillAll()
         {
             // Act
-            var instance = FakeUp.NewObject<ValuesHolder<string>>(opt => opt
+            var instance = FakeUpLib.FakeUp.NewObject<ValuesHolder<string>>(opt => opt
                 .FillAll<string>().With("FillAll")
                 .Fill(holder => holder.Value2).With("Fill")
             );
@@ -53,7 +53,7 @@ namespace FakeUp.Tests.Filling
         public void Fill_RelativePath_FillWithConstant()
         {
             // Act
-            var instance = FakeUp.NewObject<ValuesHolder<MetaIntHolder>>(opt => opt
+            var instance = FakeUpLib.FakeUp.NewObject<ValuesHolder<MetaIntHolder>>(opt => opt
                 .Fill((MetaIntHolder metaIntHolder) => metaIntHolder.Holder.IntValue1)
                 .With(42)
             );
@@ -67,7 +67,7 @@ namespace FakeUp.Tests.Filling
         public void Fill_NestedRelativePath_FillConstants()
         {
             // Act
-            var instance = FakeUp.NewObject<ValuesHolder<MetaIntHolder>>(opt =>
+            var instance = FakeUpLib.FakeUp.NewObject<ValuesHolder<MetaIntHolder>>(opt =>
             {
                 opt.Fill((MetaIntHolder metaIntHolder) => metaIntHolder.Holder.IntValue1)
                     .With(1);
@@ -85,7 +85,7 @@ namespace FakeUp.Tests.Filling
         {
             // Act
             var i = 0;
-            var instance = FakeUp.NewObject<MetaIntHolder>(opt => opt
+            var instance = FakeUpLib.FakeUp.NewObject<MetaIntHolder>(opt => opt
                 .Fill((IntHolder holder) => holder.IntValue1).With(() => i++)
                 .Fill((IntHolder holder) => holder.IntValue2).With(() => i++)
             );

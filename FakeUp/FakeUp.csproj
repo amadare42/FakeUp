@@ -7,9 +7,9 @@
     <ProjectGuid>{FA414A2C-E30D-4F58-A280-0BD658E36BD3}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>FakeUp</RootNamespace>
-    <AssemblyName>FakeUp</AssemblyName>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <RootNamespace>FakeUpLib</RootNamespace>
+    <AssemblyName>FakeUpLib</AssemblyName>
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <TargetFrameworkProfile />
@@ -50,6 +50,7 @@
     <Compile Include="Exceptions\CannotLocateStateException.cs" />
     <Compile Include="Exceptions\FillingException.cs" />
     <Compile Include="Exceptions\StateAlreadyPresentException.cs" />
+    <Compile Include="Fluent\Extensions.cs" />
     <Compile Include="RelativePathing\BaseRelativeMemberInfo.cs" />
     <Compile Include="RelativePathing\CollectionSizeRelativeMemberInfo.cs" />
     <Compile Include="Config\ConfigProvider.cs" />
@@ -88,6 +89,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="FakeUp.nuspec" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

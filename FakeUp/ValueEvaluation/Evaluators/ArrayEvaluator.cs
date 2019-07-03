@@ -1,9 +1,9 @@
 using System;
 using System.Collections;
 using System.Linq;
-using FakeUp.Extensions;
+using FakeUpLib.Extensions;
 
-namespace FakeUp.ValueEvaluation.Evaluators
+namespace FakeUpLib.ValueEvaluation.Evaluators
 {
     internal class ArrayEvaluator : IValueEvaluator
     {

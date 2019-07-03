@@ -2,13 +2,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using FakeUp.Config;
-using FakeUp.RelativePathing;
-using FakeUp.States;
-using FakeUp.ValueEvaluation;
-using FakeUp.ValueEvaluation.Evaluators;
+using FakeUpLib.Config;
+using FakeUpLib.RelativePathing;
+using FakeUpLib.States;
+using FakeUpLib.ValueEvaluation;
+using FakeUpLib.ValueEvaluation.Evaluators;
 
-namespace FakeUp
+namespace FakeUpLib
 {
     internal class ObjectCreationContext<TFakeObject> : IObjectCreationContext
     {
@@ -27,7 +27,7 @@ namespace FakeUp
             this.Config = config;
             this.StatesRepository = this.Config.StatesConfig.GetRepository();
             this.InvocationStack = new Stack<PropertyInfo>();
-            this.Evaluators = config.ValueEvaluators.Concat(DefaultValueEvaluators).ToArray();
+            this.Evaluators = config.ValueEvaluators.Concat(this.DefaultValueEvaluators).ToArray();
         }
 
         public Stack<PropertyInfo> InvocationStack { get; set; }
@@ -58,9 +58,9 @@ namespace FakeUp
             return this.InvocationStack.Pop();
         }
 
-        public int GetMatchScore(CallChain callChain)
+        public int GetMatchScore(BaseRelativeMemberInfo relativeMemberInfo)
         {
-            return callChain.GetMatchScore(this.InvocationStack);
+            return relativeMemberInfo.CallChain.GetMatchScore(this.InvocationStack);
         }
 
         public int GetCyclicReferencesDepth()

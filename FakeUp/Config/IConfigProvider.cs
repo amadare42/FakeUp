@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace FakeUp.Config
+namespace FakeUpLib.Config
 {
     public interface IConfigProvider
     {

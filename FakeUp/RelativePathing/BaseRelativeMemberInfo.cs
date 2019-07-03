@@ -1,6 +1,6 @@
 using System;
 
-namespace FakeUp.RelativePathing
+namespace FakeUpLib.RelativePathing
 {
     public abstract class BaseRelativeMemberInfo
     {

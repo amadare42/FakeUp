@@ -10,7 +10,7 @@ namespace FakeUp.Tests.Filling
         public void FilAll_FillMembersWithConstant()
         {
             // Act
-            var holder = FakeUp.NewObject<ValuesHolder<int>>(options => options
+            var holder = FakeUpLib.FakeUp.NewObject<ValuesHolder<int>>(options => options
                 .FillAll<int>().With(42)
             );
 
@@ -26,7 +26,7 @@ namespace FakeUp.Tests.Filling
             var i = 0;
 
             // Act
-            var holder = FakeUp.NewObject<ValuesHolder<int>>(options => options
+            var holder = FakeUpLib.FakeUp.NewObject<ValuesHolder<int>>(options => options
                 .FillAll<int>().With(() => i++)
             );
 
