@@ -18,7 +18,7 @@ namespace FakeUp.ValueEvaluation.Evaluators
             var elementType = type.HasElementType
                 ? type.GetElementType()
                 : type.GenericTypeArguments.First();
-            var elementsInCollections = context.GetCollectionSize();
+            var elementsInCollections = context.GetCollectionSize(type);
 
             var list = (IList)Activator.CreateInstance(type);
             for (var i = 0; i < elementsInCollections; i++)

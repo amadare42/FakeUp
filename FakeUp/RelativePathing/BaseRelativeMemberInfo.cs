@@ -2,7 +2,7 @@ using System;
 
 namespace FakeUp.RelativePathing
 {
-    internal abstract class BaseRelativeMemberInfo
+    public abstract class BaseRelativeMemberInfo
     {
         protected BaseRelativeMemberInfo(Type rootType, Type targetType, CallChain callChain)
         {

@@ -6,10 +6,9 @@ namespace FakeUp.ValueEvaluation.Evaluators
     {
         public EvaluationResult Evaluate(Type type, IObjectCreationContext context)
         {
-            Func<object> fillEvaluator;
-            if (context.Config.AbsolutePathFillers.TryGetValue(context.InvocationPath, out fillEvaluator))
+            if (context.Config.AbsolutePathFillers.TryGetValue(context.InvocationPath, out var fillEvaluator))
             {
-                var result = fillEvaluator();
+                var result = fillEvaluator(context);
                 return new EvaluationResult(result);
             }
 

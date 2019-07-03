@@ -2,17 +2,16 @@
 using FakeUp.Extensions;
 using FakeUp.Tests.Data;
 using FluentAssertions;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
 
 namespace FakeUp.Tests.ExtensionsTests
 {
-    [TestClass]
     public class ExpressionExtensionsTests
     {
-        [TestMethod]
-        public void ShouldSplitToCallInfosSuccessfully()
+        [Fact]
+        public void SplitToCalls_SplitToCallInfos()
         {
-            // act
+            // Act
             var calls =
                 ExpressionExtensions.SplitToCalls<ValuesHolder<MetaIntHolder>, int>(h => h.Value1.Holder.IntValue2);
 

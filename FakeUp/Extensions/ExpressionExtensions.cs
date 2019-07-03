@@ -14,11 +14,16 @@ namespace FakeUp.Extensions
             return new CallChain(expr.SplitToCalls().ToList());
         }
 
-        internal static IEnumerable<CallInfo> SplitToCalls<TObject, TMember>(
-            this Expression<Func<TObject, TMember>> expr)
+        /// <summary>
+        /// Returns enumeration of chained calls for expression.
+        /// E.g. for expression "o => o.Foo.Bar" following enumeration will be returned: ["Foo", "Bar"] 
+        /// </summary>
+        /// <returns></returns>
+        internal static CallInfo[] SplitToCalls<TObject, TMember>(this Expression<Func<TObject, TMember>> expr)
         {
             return GetPropertyInfosSequence(expr)
-                .Select(member => new CallInfo(member.PropertyType, member.Name));
+                .Select(member => new CallInfo(member.PropertyType, member.Name))
+                .ToArray();
         }
 
         internal static string ToCallPath<TObject, TMember>(this Expression<Func<TObject, TMember>> expr)

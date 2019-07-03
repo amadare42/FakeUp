@@ -2,18 +2,18 @@ using System;
 
 namespace FakeUp.RelativePathing
 {
-    internal class FillerRelativeMemberInfo : BaseRelativeMemberInfo
+    public class FillerRelativeMemberInfo : BaseRelativeMemberInfo
     {
-        private readonly Func<object> factoryFunc;
+        private readonly Func<IObjectCreationContext, object> factoryFunc;
 
-        public FillerRelativeMemberInfo(Func<object> factoryFunc, CallChain chain, Type rootType, Type targetType) : base(rootType, targetType, chain)
+        public FillerRelativeMemberInfo(Func<IObjectCreationContext, object> factoryFunc, CallChain chain, Type rootType, Type targetType) : base(rootType, targetType, chain)
         {
             this.factoryFunc = factoryFunc;
         }
 
-        public object Evaluate()
+        public object Evaluate(IObjectCreationContext context)
         {
-            return this.factoryFunc();
+            return this.factoryFunc(context);
         }
     }
 }

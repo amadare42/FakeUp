@@ -1,119 +1,117 @@
-using System.Collections.Generic;
 using System.Linq;
 using FakeUp.Tests.Data;
 using FluentAssertions;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
 
 namespace FakeUp.Tests.Filling
 {
-    [TestClass]
     public class CollectionElementsFillingTests
     {
-        [TestMethod]
-        public void ShouldFillElementsWithValuesFromConstantByType()
+        [Fact]
+        public void FillElementsOf_WithConstants_FillElements()
         {
-            // act
-            var instance = FakeUp.NewObject<ValuesHolder<int[], List<int>>>(options =>
-                        options.FillElementsOf<int[]>().With(42)
+            // Act
+            var instance = FakeUp.NewObject<IntListValueHolder>(options =>
+                options.FillElementsOf<int[]>().With(42)
             );
 
-            // assert
-            instance.Value1.ShouldAllBeEquivalentTo(42);
+            // Assert
+            instance.Value1.Should().BeEquivalentTo(new[] {42});
         }
 
-        [TestMethod]
-        public void ShouldPrioritizeFillElementsByTypeOverTypeFill()
+        [Fact]
+        public void FillElementsOf_FillAllSpecified_FillElementsOfPrioritized()
         {
-            // act
-            var instance = FakeUp.NewObject<ValuesHolder<int[], List<int>>>(options => options
-                    .FillAll<int>().With(1)
-                    .FillElementsOf<int[]>().With(2)
+            // Act
+            var instance = FakeUp.NewObject<IntListValueHolder>(options => options
+                .FillAll<int>().With(1)
+                .FillElementsOf<int[]>().With(2)
             );
 
-            // assert
+            // Assert
             instance.Value1.ShouldAllBeEquivalentTo(2);
             instance.Value2.ShouldAllBeEquivalentTo(1);
         }
 
-        [TestMethod]
-        public void ShouldFillElementsWithValuesFromIndexFuncByType()
+        [Fact]
+        public void FillElementsOf_WithFunc_FillSuccessfully()
         {
-            // arrange
+            // Arrange
             var collectionsSize = 10;
 
-            // act
-            var instance = FakeUp.NewObject<ValuesHolder<int[], List<int>>>(options => options
-                    .WithCollectionsSize(collectionsSize)
-                    .FillElementsOf<int[]>().With(index => index + 100)
+            // Act
+            var instance = FakeUp.NewObject<IntListValueHolder>(options => options
+                .WithCollectionsSize(collectionsSize)
+                .FillElementsOf<int[]>().With(index => index + 100)
             );
 
-            // assert
+            // Assert
             var expectedValues = Enumerable.Range(0, collectionsSize).Select(i => i + 100);
             instance.Value1.ShouldBeEquivalentTo(expectedValues, opt => opt.WithStrictOrdering());
         }
 
-        [TestMethod]
-        public void ShouldFillElementsWithValuesFromFuncByType()
+        [Fact]
+        public void FillElementsOf_WithFuncWithoutArg_FillSuccessfully()
         {
-            // arrange
+            // Arrange
             var i = 0;
 
-            // act
+            // Act
             var instance = FakeUp.NewObject<ValuesHolder<int[]>>(options =>
-                        options.FillElementsOf<int[]>().With(() => i++)
+                options.FillElementsOf<int[]>().With(() => i++)
             );
 
-            // assert
+            // Assert
             instance.Value1.ShouldAllBeEquivalentTo(0);
             instance.Value2.ShouldAllBeEquivalentTo(1);
         }
 
-        [TestMethod]
-        public void ShouldFillElementsWithValuesFromConstantByAbsolutePath()
+        [Fact]
+        public void FillElementsOf_AbsolutePath_FillConstants()
         {
-            // act
+            // Act
             var instance = FakeUp.NewObject<ValuesHolder<int[]>>(options => options
-                    .FillElementsOf(holder => holder.Value1).With(1)
-                    .FillElementsOf(holder => holder.Value2).With(2)
+                .FillElementsOf(holder => holder.Value1).With(1)
+                .FillElementsOf(holder => holder.Value2).With(2)
             );
 
-            // assert
+            // Assert
             instance.Value1.ShouldAllBeEquivalentTo(1);
             instance.Value2.ShouldAllBeEquivalentTo(2);
             instance.Value3.ShouldAllBeEquivalentTo(0);
         }
 
-        [TestMethod]
-        public void ShouldFillElementsWithValuesFromFuncByAbsolutePath()
+        [Fact]
+        public void FillElementsOf_AbsolutePath_FillFromParameterlessFunc()
         {
-            // arrange
+            // Arrange
             var i = 0;
 
-            // act
+            // Act
             var instance = FakeUp.NewObject<ValuesHolder<int[]>>(options => options
-                    .FillElementsOf(holder => holder.Value1).With(() => ++i)
-                    .FillElementsOf(holder => holder.Value2).With(() => ++i)
+                .FillElementsOf(holder => holder.Value1).With(() => ++i)
+                .FillElementsOf(holder => holder.Value2).With(() => ++i)
             );
 
-            // assert
+            // Assert
             instance.Value1.ShouldAllBeEquivalentTo(1);
             instance.Value2.ShouldAllBeEquivalentTo(2);
             instance.Value3.ShouldAllBeEquivalentTo(0);
         }
 
-        [TestMethod]
-        public void ShouldFillElementsWithValuesFromIndexFuncByAbsolutePath()
+        [Fact]
+        public void FillElementsOf_AbsolutePath_FillFromFunc()
         {
-            // arrange
+            // Arrange
             var collectionSize = 10;
 
-            // act
+            // Act
             var instance = FakeUp.NewObject<ValuesHolder<int[]>>(options => options
-                    .WithCollectionsSize(collectionSize)
-                    .FillElementsOf(holder => holder.Value1).With(index => index * 2)
+                .WithCollectionsSize(collectionSize)
+                .FillElementsOf(holder => holder.Value1).With(index => index * 2)
             );
 
-            // assert
+            // Assert
             var expectedValues = Enumerable.Range(0, collectionSize).Select(i => i * 2);
             instance.Value1.ShouldBeEquivalentTo(expectedValues);
         }

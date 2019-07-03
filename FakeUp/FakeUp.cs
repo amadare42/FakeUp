@@ -1,5 +1,6 @@
 ﻿using System;
 using FakeUp.Config;
+using FakeUp.Exceptions;
 
 namespace FakeUp
 {
@@ -26,10 +27,7 @@ namespace FakeUp
             return instance;
         }
 
-        public static IConfigProvider Config
-        {
-            get { return new ConfigProvider(); }
-        }
+        public static IConfigProvider Config { get; } = new ConfigProvider();
 
         private static FakeUpConfig<T> GetConfig<T>(Action<IFakeUpConfig<T>> action)
         {
@@ -49,7 +47,7 @@ namespace FakeUp
                 }
             }
 
-            throw new FillingException($"Cannot fill member '{context.InvocationPath}' of type '{type.FullName}'.");
+            throw new FillingException(context.InvocationPath, type);
         }
     }
 }

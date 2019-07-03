@@ -14,13 +14,25 @@ namespace FakeUp.Fluent.Implementation
 
         public IFakeUpConfig<TFakeObject> With(TMember constant)
         {
-            this.config.TypeFillers[typeof(TMember)] = () => constant;
+            this.config.TypeFillers[typeof(TMember)] = (_) => constant;
             return this.config;
         }
 
         public IFakeUpConfig<TFakeObject> With(Func<TMember> func)
         {
-            this.config.TypeFillers[typeof(TMember)] = () => func();
+            this.config.TypeFillers[typeof(TMember)] = (_) => func();
+            return this.config;
+        }
+
+        public IFakeUpConfig<TFakeObject> With(Func<IObjectCreationContext, TMember> func)
+        {
+            this.config.TypeFillers[typeof(TMember)] = (ctx) => func(ctx);
+            return this.config;
+        }
+
+        public IFakeUpConfig<TFakeObject> With(Action<IFakeUpConfig<TMember>> configOverride)
+        {
+            this.config.TypeFillers[typeof(TMember)] = _ => FakeUp.NewObject(configOverride);
             return this.config;
         }
     }

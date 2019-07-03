@@ -1,73 +1,72 @@
 using FakeUp.Tests.Data;
 using FluentAssertions;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
 
 namespace FakeUp.Tests.Filling
 {
-    [TestClass]
     public class MemberFillingTests
     {
-        [TestMethod]
-        public void ShouldFillMemberWithConstantByExpressionPath()
+        [Fact]
+        public void Fill_Constant_FillMemberByPath()
         {
-            // act
+            // Act
             var instance = FakeUp.NewObject<ValuesHolder<int>>(opt =>
-                        opt.Fill(holder => holder.Value1).With(42)
+                opt.Fill(holder => holder.Value1).With(42)
             );
 
-            // assert
+            // Assert
             instance.Value1.Should().Be(42);
         }
 
-        [TestMethod]
-        public void ShouldFillMemberWithFuncByExpressionPath()
+        [Fact]
+        public void Fill_Func_FillMemberByPath()
         {
-            // arrange
+            // Arrange
             var i = 0;
 
-            // act
-            var instance = FakeUp.NewObject<ValuesHolder<int>>(opt =>
-                    opt.Fill(holder => holder.Value1).With(() => i++)
-                        .Fill(holder => holder.Value2).With(() => i++)
+            // Act
+            var instance = FakeUp.NewObject<ValuesHolder<int>>(opt => opt
+                .Fill(holder => holder.Value1).With(() => i++)
+                .Fill(holder => holder.Value2).With(() => i++)
             );
 
-            // assert
+            // Assert
             instance.Value1.Should().Be(0);
             instance.Value2.Should().Be(1);
         }
 
-        [TestMethod]
-        public void ShouldPrioritizeMemberFillingOverTypeFilling()
+        [Fact]
+        public void Fill_PrioritizedOverFillAll()
         {
-            // act
-            var instance = FakeUp.NewObject<ValuesHolder<string>>(opt =>
-                    opt.FillAll<string>().With("FillAll")
-                        .Fill(holder => holder.Value2).With("Fill")
+            // Act
+            var instance = FakeUp.NewObject<ValuesHolder<string>>(opt => opt
+                .FillAll<string>().With("FillAll")
+                .Fill(holder => holder.Value2).With("Fill")
             );
 
-            // assert
+            // Assert
             instance.Value1.Should().Be("FillAll");
             instance.Value2.Should().Be("Fill");
         }
 
-        [TestMethod]
-        public void ShouldFillMemberWithConstantWhenUsingRelativePath()
+        [Fact]
+        public void Fill_RelativePath_FillWithConstant()
         {
-            // act
-            var instance = FakeUp.NewObject<ValuesHolder<MetaIntHolder>>(opt =>
-                    opt.Fill((MetaIntHolder metaIntHolder) => metaIntHolder.Holder.IntValue1)
-                        .With(42)
+            // Act
+            var instance = FakeUp.NewObject<ValuesHolder<MetaIntHolder>>(opt => opt
+                .Fill((MetaIntHolder metaIntHolder) => metaIntHolder.Holder.IntValue1)
+                .With(42)
             );
 
-            // assert
+            // Assert
             instance.Value1.Holder.IntValue1.Should().Be(42);
             instance.Value2.Holder.IntValue1.Should().Be(42);
         }
 
-        [TestMethod]
-        public void ShouldFillMemberWithConstantWhenUsingNestedRelativePaths()
+        [Fact]
+        public void Fill_NestedRelativePath_FillConstants()
         {
-            // act
+            // Act
             var instance = FakeUp.NewObject<ValuesHolder<MetaIntHolder>>(opt =>
             {
                 opt.Fill((MetaIntHolder metaIntHolder) => metaIntHolder.Holder.IntValue1)
@@ -76,22 +75,22 @@ namespace FakeUp.Tests.Filling
                     .With(2);
             });
 
-            // assert
+            // Assert
             instance.Value1.Holder.IntValue1.Should().Be(1);
             instance.Value1.Holder.IntValue2.Should().Be(2);
         }
 
-        [TestMethod]
-        public void ShouldFillMemberWithFuncUsingRelativePath()
+        [Fact]
+        public void Fill_RelativePath_FillByFunc()
         {
-            // act
+            // Act
             var i = 0;
             var instance = FakeUp.NewObject<MetaIntHolder>(opt => opt
-                    .Fill((IntHolder holder) => holder.IntValue1).With(() => i++)
-                    .Fill((IntHolder holder) => holder.IntValue2).With(() => i++)
+                .Fill((IntHolder holder) => holder.IntValue1).With(() => i++)
+                .Fill((IntHolder holder) => holder.IntValue2).With(() => i++)
             );
 
-            // assert
+            // Assert
             instance.Holder.IntValue1.Should().Be(0);
             instance.Holder.IntValue2.Should().Be(1);
         }

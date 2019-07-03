@@ -6,13 +6,15 @@ using FakeUp.ValueEvaluation;
 
 namespace FakeUp
 {
-    internal interface IObjectCreationContext
+    public interface IObjectCreationContext
     {
         IInternalFakeUpConfig Config { get; }
 
         string InvocationPath { get; }
 
         IValueEvaluator[] Evaluators { get; }
+
+        T GetState<T>(string tag = "");
 
         Type CurrentPropertyType { get; }
 

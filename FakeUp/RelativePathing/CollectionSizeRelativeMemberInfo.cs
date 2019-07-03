@@ -2,7 +2,7 @@ using System;
 
 namespace FakeUp.RelativePathing
 {
-    internal class CollectionSizeRelativeMemberInfo : BaseRelativeMemberInfo
+    public class CollectionSizeRelativeMemberInfo : BaseRelativeMemberInfo
     {
         public int Size { get; }
 

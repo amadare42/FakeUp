@@ -47,12 +47,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Exceptions\CannotLocateStateException.cs" />
+    <Compile Include="Exceptions\FillingException.cs" />
+    <Compile Include="Exceptions\StateAlreadyPresentException.cs" />
     <Compile Include="RelativePathing\BaseRelativeMemberInfo.cs" />
     <Compile Include="RelativePathing\CollectionSizeRelativeMemberInfo.cs" />
     <Compile Include="Config\ConfigProvider.cs" />
     <Compile Include="Config\IConfigProvider.cs" />
     <Compile Include="RelativePathing\RelativeTypeHelper.cs" />
-    <Compile Include="FillingException.cs" />
+    <Compile Include="States\StatesConfig.cs" />
+    <Compile Include="States\StatesRepository.cs" />
     <Compile Include="ValueEvaluation\Evaluators\AbsolutePathEvaluator.cs" />
     <Compile Include="RelativePathing\CallChain.cs" />
     <Compile Include="FakeUp.cs" />
@@ -85,7 +89,6 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

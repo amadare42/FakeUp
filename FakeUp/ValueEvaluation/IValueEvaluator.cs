@@ -2,7 +2,7 @@
 
 namespace FakeUp.ValueEvaluation
 {
-    internal interface IValueEvaluator
+    public interface IValueEvaluator
     {
         EvaluationResult Evaluate(Type type, IObjectCreationContext context);
     }

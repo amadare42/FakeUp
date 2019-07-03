@@ -5,7 +5,7 @@ namespace FakeUp.RelativePathing
 {
     internal static class RelativeTypeHelper
     {
-        public static TMemberInfo GetBestMatch<TMemberInfo>(IEnumerable<TMemberInfo> relativeMemberInfos, IObjectCreationContext context)
+        public static TMemberInfo GetBestMatch<TMemberInfo>(this IEnumerable<TMemberInfo> relativeMemberInfos, IObjectCreationContext context)
             where TMemberInfo : BaseRelativeMemberInfo
         {
             return relativeMemberInfos

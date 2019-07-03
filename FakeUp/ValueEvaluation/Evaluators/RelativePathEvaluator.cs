@@ -7,11 +7,11 @@ namespace FakeUp.ValueEvaluation.Evaluators
     {
         public EvaluationResult Evaluate(Type type, IObjectCreationContext context)
         {
-            var bestMemberInfo = RelativeTypeHelper.GetBestMatch(context.Config.RelativeTypeFillers, context);
+            var bestMemberInfo = context.Config.RelativeTypeFillers.GetBestMatch(context);
 
             if (bestMemberInfo != null)
             {
-                var result = bestMemberInfo.Evaluate();
+                var result = bestMemberInfo.Evaluate(context);
                 return new EvaluationResult(result);
             }
             return EvaluationResult.Empty;

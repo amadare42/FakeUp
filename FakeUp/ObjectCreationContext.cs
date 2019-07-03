@@ -4,48 +4,44 @@ using System.Linq;
 using System.Reflection;
 using FakeUp.Config;
 using FakeUp.RelativePathing;
+using FakeUp.States;
 using FakeUp.ValueEvaluation;
 using FakeUp.ValueEvaluation.Evaluators;
 
 namespace FakeUp
 {
-    internal class ObjectCreationContext<T> : IObjectCreationContext
+    internal class ObjectCreationContext<TFakeObject> : IObjectCreationContext
     {
-        private static IValueEvaluator[] DefaultValueEvaluators
-        {
-            get
-            {
-                return new IValueEvaluator[]
-                {
-                    new AbsolutePathEvaluator(),
-                    new RelativePathEvaluator(),
-                    new TypeEvaluator(),
-                    new EmptyStringEvaluator(),
-                    new ListEvaluator(),
-                    new ArrayEvaluator(),
-                    new ActivatorEvaluator()
-                };
-            }
-        }
+        private readonly IValueEvaluator[] DefaultValueEvaluators = {
+            new AbsolutePathEvaluator(),
+            new RelativePathEvaluator(),
+            new TypeEvaluator(),
+            new EmptyStringEvaluator(),
+            new ListEvaluator(),
+            new ArrayEvaluator(),
+            new ActivatorEvaluator()
+        };
 
-        internal ObjectCreationContext(FakeUpConfig<T> config)
+        internal ObjectCreationContext(FakeUpConfig<TFakeObject> config)
         {
             this.Config = config;
+            this.StatesRepository = this.Config.StatesConfig.GetRepository();
             this.InvocationStack = new Stack<PropertyInfo>();
-            this.Evaluators = DefaultValueEvaluators;
+            this.Evaluators = config.ValueEvaluators.Concat(DefaultValueEvaluators).ToArray();
         }
 
         public Stack<PropertyInfo> InvocationStack { get; set; }
+        
+        public StatesRepository StatesRepository { get; }
 
         public IValueEvaluator[] Evaluators { get; }
 
-        public Type CurrentPropertyType
+        public T GetState<T>(string tag = "")
         {
-            get
-            {
-                return this.InvocationStack.Peek().PropertyType;
-            }
+            return this.StatesRepository.GetState<T>(tag);
         }
+
+        public Type CurrentPropertyType => this.InvocationStack.Any() ? this.InvocationStack.Peek().PropertyType : null;
 
         public object NewObject(Type type)
         {
@@ -75,7 +71,7 @@ namespace FakeUp
 
         IInternalFakeUpConfig IObjectCreationContext.Config => this.Config;
 
-        public FakeUpConfig<T> Config { get; set; }
+        public FakeUpConfig<TFakeObject> Config { get; set; }
 
         public string InvocationPath
         {

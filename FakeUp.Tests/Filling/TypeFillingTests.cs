@@ -1,37 +1,36 @@
 ﻿using FakeUp.Tests.Data;
 using FluentAssertions;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
 
 namespace FakeUp.Tests.Filling
 {
-    [TestClass]
     public class TypeFillingTests
     {
-        [TestMethod]
-        public void FilAll_ShouldFillMembersWithConstant()
+        [Fact]
+        public void FilAll_FillMembersWithConstant()
         {
-            // act
-            var holder = FakeUp.NewObject<ValuesHolder<int>>
-            (options => options.FillAll<int>().With(42)
+            // Act
+            var holder = FakeUp.NewObject<ValuesHolder<int>>(options => options
+                .FillAll<int>().With(42)
             );
 
-            // assert
+            // Assert
             holder.Value1.Should().Be(42);
             holder.Value2.Should().Be(42);
         }
 
-        [TestMethod]
-        public void FilAll_ShouldFillMembersWithFunc()
+        [Fact]
+        public void FilAll_FillMembersWithFunc()
         {
-            // arrange
+            // Arrange
             var i = 0;
 
-            // act
-            var holder = FakeUp.NewObject<ValuesHolder<int>>
-            (options => options.FillAll<int>().With(() => i++)
+            // Act
+            var holder = FakeUp.NewObject<ValuesHolder<int>>(options => options
+                .FillAll<int>().With(() => i++)
             );
 
-            // assert
+            // Assert
             holder.Value1.Should().Be(0);
             holder.Value2.Should().Be(1);
         }

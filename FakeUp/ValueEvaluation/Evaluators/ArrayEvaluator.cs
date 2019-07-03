@@ -14,7 +14,7 @@ namespace FakeUp.ValueEvaluation.Evaluators
                 return EvaluationResult.Empty;
             }
 
-            var elementsInCollections = context.GetCollectionSize();
+            var elementsInCollections = context.GetCollectionSize(type);
             var elementType = type.GetGenericArguments().FirstOrDefault();
             Array array;
             if (elementType != null)
@@ -29,9 +29,8 @@ namespace FakeUp.ValueEvaluation.Evaluators
 
             for (var i = 0; i < elementsInCollections; i++)
             {
-                Func<int, object> filler;
                 object value;
-                if (context.Config.TypeElementsFillers.TryGetValue(type, out filler))
+                if (context.Config.TypeElementsFillers.TryGetValue(type, out var filler))
                 {
                     value = filler(i);
                 }

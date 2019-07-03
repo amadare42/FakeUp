@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using FakeUp.Fluent;
+using FakeUp.ValueEvaluation;
 
 namespace FakeUp.Config
 {
@@ -119,5 +120,10 @@ namespace FakeUp.Config
         IFakeUpConfig<TFakeObject> WithConfiguration(params Action<IFakeUpConfig<TFakeObject>>[] configs);
 
         IFakeUpConfig<TFakeObject> WithConfigurations(IEnumerable<Action<IFakeUpConfig<TFakeObject>>> configs);
+
+        IFakeUpConfig<TFakeObject> AddEvaluator(IValueEvaluator evaluator);
+        
+        IFakeUpConfig<TFakeObject> AddState<TState>(Func<TState> createState);
+        IFakeUpConfig<TFakeObject> AddState<TState>(string tag, Func<TState> createState);
     }
 }

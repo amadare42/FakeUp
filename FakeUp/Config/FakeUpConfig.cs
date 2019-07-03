@@ -6,6 +6,8 @@ using FakeUp.Extensions;
 using FakeUp.Fluent;
 using FakeUp.Fluent.Implementation;
 using FakeUp.RelativePathing;
+using FakeUp.States;
+using FakeUp.ValueEvaluation;
 
 namespace FakeUp.Config
 {
@@ -18,24 +20,26 @@ namespace FakeUp.Config
             this.AbsoluteElementsFillers = new Dictionary<string, Func<int, object>>();
             this.RelativeElementsFillers = new List<FillerRelativeMemberInfo>();
             this.TypeElementsFillers = new Dictionary<Type, Func<int, object>>();
-            this.AbsolutePathFillers = new Dictionary<string, Func<object>>();
+            this.AbsolutePathFillers = new Dictionary<string, Func<IObjectCreationContext, object>>();
             this.RelativeTypeFillers = new List<FillerRelativeMemberInfo>();
-            this.TypeFillers = new Dictionary<Type, Func<object>>();
+            this.TypeFillers = new Dictionary<Type, Func<IObjectCreationContext, object>>();
             this.AbsolutePathCollectionSizes = new Dictionary<string, int>();
             this.TypeCollectionSizes = new Dictionary<Type, int>();
             this.RelativeCollectionSizes = new List<CollectionSizeRelativeMemberInfo>();
             this.DefaultCollectionsSize = DefaultCollectionElementCount;
+            this.ValueEvaluators = new List<IValueEvaluator>();
+            this.StatesConfig = new StatesConfig();
         }
 
         public int DefaultCollectionsSize { get; set; }
 
         #region Member fillers
 
-        public Dictionary<Type, Func<object>> TypeFillers { get; set; }
+        public Dictionary<Type, Func<IObjectCreationContext, object>> TypeFillers { get; set; }
 
         public List<FillerRelativeMemberInfo> RelativeTypeFillers { get; set; }
 
-        public Dictionary<string, Func<object>> AbsolutePathFillers { get; set; }
+        public Dictionary<string, Func<IObjectCreationContext, object>> AbsolutePathFillers { get; set; }
 
         #endregion Member fillers
 
@@ -58,6 +62,10 @@ namespace FakeUp.Config
         public List<CollectionSizeRelativeMemberInfo> RelativeCollectionSizes { get; set; }
 
         #endregion Collection sizes
+
+        public StatesConfig StatesConfig { get; }
+        
+        public List<IValueEvaluator> ValueEvaluators { get; }
 
         public ICollectionWith<TFakeObject> FillElementsOf<TCollection>(
             Expression<Func<TFakeObject, TCollection>> memberPath)
@@ -130,6 +138,24 @@ namespace FakeUp.Config
             {
                 config(this);
             }
+            return this;
+        }
+
+        public IFakeUpConfig<TFakeObject> AddEvaluator(IValueEvaluator evaluator)
+        {
+            this.ValueEvaluators.Add(evaluator);
+            return this;
+        }
+
+        public IFakeUpConfig<TFakeObject> AddState<TState>(Func<TState> createState)
+        {
+            this.StatesConfig.Add("", createState);
+            return this;
+        }
+        
+        public IFakeUpConfig<TFakeObject> AddState<TState>(string tag, Func<TState> createState)
+        {
+            this.StatesConfig.Add(tag, createState);
             return this;
         }
     }

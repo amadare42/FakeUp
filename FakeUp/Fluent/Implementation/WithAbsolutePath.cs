@@ -19,14 +19,28 @@ namespace FakeUp.Fluent.Implementation
         public IFakeUpConfig<TFakeObject> With(TMember constant)
         {
             var callPath = this.memberPath.ToCallPath();
-            this.config.AbsolutePathFillers[callPath] = () => constant;
+            this.config.AbsolutePathFillers[callPath] = (_) => constant;
             return this.config;
         }
 
         public IFakeUpConfig<TFakeObject> With(Func<TMember> func)
         {
             var callPath = this.memberPath.ToCallPath();
-            this.config.AbsolutePathFillers[callPath] = () => func();
+            this.config.AbsolutePathFillers[callPath] = (_) => func();
+            return this.config;
+        }
+
+        public IFakeUpConfig<TFakeObject> With(Func<IObjectCreationContext, TMember> func)
+        {
+            var callPath = this.memberPath.ToCallPath();
+            this.config.AbsolutePathFillers[callPath] = (ctx) => func(ctx);
+            return this.config;
+        }
+
+        public IFakeUpConfig<TFakeObject> With(Action<IFakeUpConfig<TMember>> configOverride)
+        {
+            var callPath = this.memberPath.ToCallPath();
+            this.config.AbsolutePathFillers[callPath] = (_) => FakeUp.NewObject(configOverride);
             return this.config;
         }
     }

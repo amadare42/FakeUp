@@ -20,7 +20,7 @@ namespace FakeUp.Fluent.Implementation
         public IFakeUpConfig<TFakeObject> With(TMetaMember constant)
         {
             var relativeMemberInfo = new FillerRelativeMemberInfo(
-                () => constant,
+                (_) => constant,
                 this.memberExpr.ToCallChain(),
                 typeof(TMember),
                 typeof(TMetaMember)
@@ -32,7 +32,31 @@ namespace FakeUp.Fluent.Implementation
         public IFakeUpConfig<TFakeObject> With(Func<TMetaMember> func)
         {
             var relativeMemberInfo = new FillerRelativeMemberInfo(
-                () => func(),
+                (_) => func(),
+                this.memberExpr.ToCallChain(),
+                typeof(TMember),
+                typeof(TMetaMember)
+            );
+            this.config.RelativeTypeFillers.Add(relativeMemberInfo);
+            return this.config;
+        }
+
+        public IFakeUpConfig<TFakeObject> With(Func<IObjectCreationContext, TMetaMember> func)
+        {
+            var relativeMemberInfo = new FillerRelativeMemberInfo(
+                (ctx) => func(ctx),
+                this.memberExpr.ToCallChain(),
+                typeof(TMember),
+                typeof(TMetaMember)
+            );
+            this.config.RelativeTypeFillers.Add(relativeMemberInfo);
+            return this.config;
+        }
+
+        public IFakeUpConfig<TFakeObject> With(Action<IFakeUpConfig<TMetaMember>> configOverride)
+        {
+            var relativeMemberInfo = new FillerRelativeMemberInfo(
+                (_) => FakeUp.NewObject(configOverride),
                 this.memberExpr.ToCallChain(),
                 typeof(TMember),
                 typeof(TMetaMember)

@@ -1,10 +1,12 @@
+using System;
+using FakeUp.Config;
 using FakeUp.RelativePathing;
 
 namespace FakeUp.Extensions
 {
-    internal static class ConfigExtensions
+    public static class ConfigExtensions
     {
-        public static int GetCollectionSize(this IObjectCreationContext context)
+        public static int GetCollectionSize(this IObjectCreationContext context, Type type)
         {
             var config = context.Config;
             int size;
@@ -16,7 +18,7 @@ namespace FakeUp.Extensions
             }
 
             // relative
-            var bestMemberInfo = RelativeTypeHelper.GetBestMatch(config.RelativeCollectionSizes, context);
+            var bestMemberInfo = config.RelativeCollectionSizes.GetBestMatch(context);
             if (bestMemberInfo != null)
             {
                 return bestMemberInfo.Size;
@@ -24,13 +26,18 @@ namespace FakeUp.Extensions
 
 
             // type
-            if (config.TypeCollectionSizes.TryGetValue(context.CurrentPropertyType, out size))
+            if (config.TypeCollectionSizes.TryGetValue(type, out size))
             {
                 return size;
             }
 
             //generic
             return config.DefaultCollectionsSize;
+        }
+
+        public static T FakeUp<T>(this Action<IFakeUpConfig<T>> config)
+        {
+            return global::FakeUp.FakeUp.NewObject(config);
         }
     }
 }
